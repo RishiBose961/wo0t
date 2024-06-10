@@ -2,21 +2,16 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { PlusSquareIcon } from "lucide-react";
 
 let today = new Date();
-
-let dd = today.getDate();
-let mm = today.getMonth() + 1;
-
+let dd = String(today.getDate()).padStart(2, "0");
+let mm = String(today.getMonth() + 1).padStart(2, "0");
 let yyyy = today.getFullYear();
+today = `${dd}/${mm}/${yyyy}`;
 
-if (dd < 10) {
-  dd = "0" + dd;
-}
-if (mm < 10) {
-  mm = "0" + mm;
-}
-today = dd + "/" + mm + "/" + yyyy;
-
-export default function DateTime() {
+export default function DateTime({ date, setDate, time, setTime }) {
+  const handleIconClick = () => {
+    const currentTime = today; // Get current time in 'HH:MM:SS' format
+    setDate(currentTime);
+  };
   return (
     <div className="w-full pt-3">
       <div className="w-full max-w-md">
@@ -37,15 +32,32 @@ export default function DateTime() {
                   <p>{today}</p>
                 </div>
                 <div>
-                  <PlusSquareIcon />
+                  <PlusSquareIcon onClick={handleIconClick} />
                 </div>
               </div>
             </TabPanel>
             <TabPanel className="rounded-xl bg-white/5 p-3">
-              <p>Date</p>
-              <input type="date" className="px-2 rounded-lg" />
-              <p className="mt-6">Time</p>
-              <input type="time" className="px-2 rounded-lg" />
+              <div className="flex justify-between items-center">
+                <div>
+                  <p>Date</p>
+                  <input
+                    type="date"
+                    className="px-2 rounded-lg mt-2"
+                    value={date}
+                    defaultValue={today}
+                    onChange={(e) => setDate(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <p>Time</p>
+                  <input
+                    type="time"
+                    className="px-2 rounded-lg mt-2"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                  />
+                </div>
+              </div>
             </TabPanel>
           </TabPanels>
         </TabGroup>
