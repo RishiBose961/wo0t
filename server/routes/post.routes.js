@@ -1,9 +1,9 @@
 import express from "express";
-const router = express.Router();
-import { createPost, getPosts } from "../controller/post.controller.js";
-import { validate } from "../middleware/validate.middleware.js";
+import { createPost, getPostIndividual, getPosts } from "../controller/post.controller.js";
 import { protect } from "../middleware/authMiddleware.js";
+const router = express.Router();
 
 router.route("/newpost").post(protect, createPost);
 router.route("/getpost").get(getPosts);
+router.route("/:descriptions").get(getPostIndividual)
 export default router;

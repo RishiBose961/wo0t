@@ -2,7 +2,7 @@ import expressAsyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 import User from "../models/user.model.js";
 import crypto from "crypto";
-
+import mongoose from "mongoose";
 
 export const registerUser = expressAsyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -65,4 +65,38 @@ export const loginUser = expressAsyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Invalid Email or Password");
   }
+});
+
+export const getUserProfileSearch = expressAsyncHandler(async (req, res) => {
+  const { query } = req.params;
+
+  try {
+    let user;
+
+    // query is userId
+    if (mongoose.Types.ObjectId.isValid(query)) {
+      user = await User.findOne({ _id: query })
+        .select("-password")
+        .select("-updatedAt");
+    } else {
+      // query is username
+      user = await User.findOne({ username: query })
+        .select("-password")
+        .select("-updatedAt");
+    }
+
+    if (!user) return res.status(404).json({ error: "User not found" });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+    console.log("Error in getUserProfile: ", err.message);
+  }
+});
+
+export const logoutUser = expressAsyncHandler(async (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "Logout out" });
 });

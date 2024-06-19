@@ -14,19 +14,19 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    uniqueId:{
-      type: String,
-      required: true,
-    },
     date: {
-      type: Date,
+      type: String,
       default: () => new Date(),
     },
-    time: {
+    scheduledate:{
       type: String,
     },
     sourceurl: {
       type: String,
+    },
+    likeCount:{
+      type: Number,
+      default: 0,
     },
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,

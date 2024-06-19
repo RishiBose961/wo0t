@@ -5,13 +5,25 @@ let today = new Date();
 let dd = String(today.getDate()).padStart(2, "0");
 let mm = String(today.getMonth() + 1).padStart(2, "0");
 let yyyy = today.getFullYear();
-today = `${dd}/${mm}/${yyyy}`;
+today = `${yyyy}-${mm}-${dd}`;
 
-export default function DateTime({ date, setDate, time, setTime }) {
+export default function DateTime({
+  date,
+  setDate,
+  scheduledate,
+  setscheduledate,
+}) {
   const handleIconClick = () => {
     const currentTime = today; // Get current time in 'HH:MM:SS' format
     setDate(currentTime);
   };
+
+  const currentDateTime = new Date().toISOString().slice(0, 16);
+
+  const maxDateTime = new Date();
+  maxDateTime.setDate(maxDateTime.getDate() + 10);
+  const maxDateTimeFormatted = maxDateTime.toISOString().slice(0, 16);
+
   return (
     <div className="w-full pt-3">
       <div className="w-full max-w-md">
@@ -41,20 +53,12 @@ export default function DateTime({ date, setDate, time, setTime }) {
                 <div>
                   <p>Date</p>
                   <input
-                    type="date"
+                    type="datetime-local"
                     className="px-2 rounded-lg mt-2"
-                    value={date}
-                    defaultValue={today}
-                    onChange={(e) => setDate(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <p>Time</p>
-                  <input
-                    type="time"
-                    className="px-2 rounded-lg mt-2"
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
+                    value={scheduledate}
+                    onChange={(e) => setscheduledate(e.target.value)}
+                    min={currentDateTime}
+                    max={maxDateTimeFormatted}
                   />
                 </div>
               </div>

@@ -21,6 +21,8 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Individualpost from "./page/Individualpost/Individualpost.jsx";
+import SearchProfile from "./page/SearchProfile/SearchProfile.jsx";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +38,8 @@ const router = createBrowserRouter(
         <Route path="/new" element={<CreatePage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/read/:desc" element={<Individualpost />} />
+        <Route path="/:profile" element={<SearchProfile />} />
       </Route>
     </Route>
   )

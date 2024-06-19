@@ -1,9 +1,11 @@
 import React, { useRef, useState } from "react";
 import DateTime from "./DateTime";
 import { QueryClient, useMutation } from "@tanstack/react-query";
-import { Upload, X } from "lucide-react";
+import { Bot, Upload, X } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import GeminiPost from "../../components/GeminiComp/GeminiPost";
+import { AipostSession } from "../../hooks/GeminiPostCreate";
 
 const people = [
   "News",
@@ -28,8 +30,10 @@ const CreatePage = () => {
   const [category, setCategory] = useState("");
   const [visibility, setVisibility] = useState("");
   const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [scheduledate, setscheduledate] = useState("");
   const [uploaded, setUploaded] = useState();
+
+  const [aigeminigenerate, setAigeminigenerate] = useState();
 
   const sourceu = useRef(null);
 
@@ -47,7 +51,7 @@ const CreatePage = () => {
       category,
       visibility,
       date,
-      time,
+      scheduledate,
     }) => {
       try {
         const res = await axios.post(
@@ -58,7 +62,7 @@ const CreatePage = () => {
             category,
             visibility,
             date,
-            time,
+            scheduledate,
           },
           {
             headers: {
@@ -84,9 +88,30 @@ const CreatePage = () => {
     },
   });
 
+  const generateCaptions = async () => {
+    const Prompt = `generate best caption suggest 4 caption in 120 wordLimit ${descriptions} `;
+    const result = await AipostSession.sendMessage(Prompt);
+    setAigeminigenerate(JSON.parse([result.response.text()]));
+  };
+
+  const handleTextAreaChange = (e) => {
+    setDescriptions(e.target.value);
+    const trimmedValue = e.target.value.slice(0, 150); // Limit to 20 words
+    setDescriptions(trimmedValue);
+  };
+
+  const wordCount = descriptions.length;
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    createPost({ descriptions, sourceurl, category, visibility, date, time });
+    createPost({
+      descriptions,
+      sourceurl,
+      category,
+      visibility,
+      date,
+      scheduledate,
+    });
   };
 
   const handleImgChange = (e) => {
@@ -99,7 +124,6 @@ const CreatePage = () => {
       reader.readAsDataURL(file);
     }
   };
-
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -127,14 +151,33 @@ const CreatePage = () => {
           <div>
             <label className="text-sm/6 font-medium text-white">Caption</label>
 
-            <input
-              className="mt-3 block w-full rounded-lg border-none  py-1.5 px-3 text-sm/6
-            text-white focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2
-            data-[focus]:outline-white/25"
-              value={descriptions}
-              onChange={(e) => setDescriptions(e.target.value)}
-            />
+            <div className="relative mt-3 block w-full">
+              <textarea
+                className="block w-full rounded-lg pe-10 border-none py-1.5 px-3 text-sm/6
+              text-white focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2
+              data-[focus]:outline-white/25"
+                value={descriptions}
+                onChange={handleTextAreaChange}
+              />
+              <button
+                className="absolute bottom-2 right-2  text-white py-1 px-2 rounded"
+                // replace with your button click handler
+              >
+                <Bot onClick={generateCaptions} />
+              </button>
+            </div>
           </div>
+          {
+            <p
+              className={`${wordCount >= 130 ? "text-red-500" : "text-white"}`}
+            >
+              {wordCount}/150
+            </p>
+          }
+          <GeminiPost
+            setDescriptions={setDescriptions}
+            aigeminigenerate={aigeminigenerate}
+          />
           <div className="mt-4">
             <label className="text-sm/6 font-medium text-white">Category</label>
             <select
@@ -181,8 +224,8 @@ const CreatePage = () => {
               <DateTime
                 date={date}
                 setDate={setDate}
-                time={time}
-                setTime={setTime}
+                scheduledate={scheduledate}
+                setscheduledate={setscheduledate}
               />
             </div>
 
@@ -223,7 +266,7 @@ const CreatePage = () => {
                   className="block text-xs text-white"
                 >
                   {" "}
-                  {date} {time}
+                  {date || scheduledate}
                 </time>
 
                 <a href="#">

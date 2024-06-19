@@ -6,8 +6,8 @@ const BottomNav = () => {
   const { Menus } = MenusHook();
   return (
     <div className="btm-nav lg:hidden ">
-      {Menus.map((item) => (
-        <NavLink
+      {Menus.map((item,index) => (
+        <NavLink  key={index}
           style={({ isActive }) => {
             return { backgroundColor: isActive ? "aqua" : "" };
           }}

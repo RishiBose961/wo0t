@@ -1,9 +1,28 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import MenusHook from "../../hooks/MenusHook";
+import { useDispatch, useSelector } from "react-redux";
+import { useLogoutMutation } from "../../slices/userApiSlice";
+import { logout } from "../../slices/authSlices";
 
 const SideHeader = () => {
   const { Menus } = MenusHook();
+
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [logoutApiCall] = useLogoutMutation();
+
+
+  const logoutHandler = async()=>{
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout())
+      navigate('/')
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="hidden lg:flex h-screen w-16 flex-col justify-between border-e ">
@@ -15,8 +34,8 @@ const SideHeader = () => {
         <div>
           <div className="px-2">
             <ul className="space-y-1 text-white pt-4">
-              {Menus.map((item) => (
-                <li>
+              {Menus.map((item,index) => (
+                <li key={index}>
                   <NavLink
                     style={({ isActive }) => {
                       return { backgroundColor: isActive ? "aqua" : "" };
@@ -38,9 +57,9 @@ const SideHeader = () => {
       </div>
 
       <div className="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2">
-        <form action="#">
+        
           <button
-            type="submit"
+            onClick={logoutHandler}
             className="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
           >
             <svg
@@ -62,7 +81,7 @@ const SideHeader = () => {
               Logout
             </span>
           </button>
-        </form>
+    
       </div>
     </div>
   );
