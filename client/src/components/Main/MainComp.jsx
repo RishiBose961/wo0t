@@ -1,22 +1,34 @@
-import React, { Fragment } from "react";
-import MainCompProfile from "../Profile/MainCompProfile";
-import GetAllPostHook from "../../hooks/GetAllPostHook";
-import DateTimeLeft from "./DateTimeLeft";
 import {
   LineChart,
-  MessageCircleMore,
   MessageCircleMoreIcon,
-  Share2,
+  Share2
 } from "lucide-react";
-import { format } from "timeago.js";
-import { Link } from "react-router-dom";
-import LikePostHook from "../../hooks/LikePostHook";
+import React, { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
-
+import { Link } from "react-router-dom";
+import { format } from "timeago.js";
+import GetAllPostHook from "../../hooks/GetAllPostHook";
+import LikePostHook from "../../hooks/LikePostHook";
+import MainCompProfile from "../Profile/MainCompProfile";
+import DateTimeLeft from "./DateTimeLeft";
 
 const MainComp = () => {
   const { postData } = GetAllPostHook();
   const { userInfo } = useSelector((state) => state.auth);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
+
+  const handleError = () => {
+    setIsLoading(false);
+    setError("Image failed to load.");
+  };
+
+  
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -25,14 +37,25 @@ const MainComp = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 mb-4 gap-3">
             <div className=" col-span-2">
               <article className="overflow-hidden rounded-lg border">
-                <img alt="" src={i.sourceurl} className="h-56 w-full" />
+                {isLoading && (
+                  <p>image loading</p>
+                )}
+                {error && <p>{error}</p>}
+                
+                <img
+                  alt=""
+                  src={i.sourceurl}
+                  className="h-56 w-full"
+                  onLoad={handleImageLoad}
+                  onError={handleError}
+                />
 
                 <div className="p-4 sm:p-6 bg-[#1D232A] rounded-b-lg">
                   <div className="badge badge-accent badge-outline mb-2">
                     {i.category}
                   </div>
                   <Link to={`/read/${i.descriptions}`}>
-                    <h3 className="mt-0.5 text-lg line-clamp-1 w-96 text-white">
+                    <h3 className="mt-0.5 text-lg line-clamp-2 w-96 text-white">
                       {i.descriptions}
                     </h3>
                   </Link>

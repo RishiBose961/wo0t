@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+    geminiApiKey:{
+      type: String,
+      default:""
+    }
   },
 
   {

@@ -5,7 +5,7 @@ import { Bot, Upload, X } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import GeminiPost from "../../components/GeminiComp/GeminiPost";
-import { AipostSession } from "../../hooks/GeminiPostCreate";
+import GeminiPostCreate from "../../hooks/GeminiPostCreate";
 
 const people = [
   "News",
@@ -32,6 +32,8 @@ const CreatePage = () => {
   const [date, setDate] = useState("");
   const [scheduledate, setscheduledate] = useState("");
   const [uploaded, setUploaded] = useState();
+
+  const { AipostSession } = GeminiPostCreate();
 
   const [aigeminigenerate, setAigeminigenerate] = useState();
 
@@ -89,14 +91,14 @@ const CreatePage = () => {
   });
 
   const generateCaptions = async () => {
-    const Prompt = `generate best caption suggest 4 caption in 120 wordLimit ${descriptions} `;
+    const Prompt = `generate best caption suggest 4 caption  ${descriptions}  in 120 word Limit`;
     const result = await AipostSession.sendMessage(Prompt);
     setAigeminigenerate(JSON.parse([result.response.text()]));
   };
 
   const handleTextAreaChange = (e) => {
     setDescriptions(e.target.value);
-    const trimmedValue = e.target.value.slice(0, 150); // Limit to 20 words
+    const trimmedValue = e.target.value.slice(0, 255); // Limit to 20 words
     setDescriptions(trimmedValue);
   };
 
@@ -168,11 +170,13 @@ const CreatePage = () => {
             </div>
           </div>
           {
-            <p
-              className={`${wordCount >= 130 ? "text-red-500" : "text-white"}`}
+            <div
+              className={` badge mt-3  badge-outline ${
+                wordCount >= 200 ? "badge-secondary " : "badge-accent"
+              }`}
             >
-              {wordCount}/150
-            </p>
+              {wordCount}/255
+            </div>
           }
           <GeminiPost
             setDescriptions={setDescriptions}

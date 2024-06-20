@@ -93,6 +93,20 @@ export const getUserProfileSearch = expressAsyncHandler(async (req, res) => {
   }
 });
 
+export const geminiApiKeyAdd = async (req, res) => {
+  try {
+    const { geminiApiKey } = req.body;
+    const user = await User.findOneAndUpdate(
+      { _id: req.user.id },
+      { $set: { geminiApiKey } },
+      { new: true }
+    );
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 export const logoutUser = expressAsyncHandler(async (req, res) => {
   res.cookie("jwt", "", {
     httpOnly: true,

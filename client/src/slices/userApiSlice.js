@@ -20,7 +20,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     updateUser: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/profile`,
+        url: `${USERS_URL}/geminiupdate`,
         method: "PUT",
         body: data,
       }),

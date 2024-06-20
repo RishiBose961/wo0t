@@ -101,7 +101,7 @@ const LikePostHook = ({ postby }) => {
     },
     onSuccess: (data) => {
       // Handle success
-      console.log("Data added successfully:", data);
+      // console.log("Data added successfully:", data);
       toast.success(`${data?.message}`, {
         position: "bottom-center",
         icon: "👎",
