@@ -1,29 +1,104 @@
-import { Send } from "lucide-react";
-import React from "react";
+import { MessageSquareMore, Send } from "lucide-react";
+import React, { useState } from "react";
 import CommentView from "./CommentView";
+import SugestionComment from "./SugestionComment";
+import { useSelector } from "react-redux";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const Comments = () => {
+const Comments = ({ postId,postitle }) => {
+  const { userInfo } = useSelector((state) => state.auth);
+  const [isPending, setIsPending] = useState(false);
+  const [inpval, setinpval] = useState({
+    commentext: "",
+  });
+
+  const queryClient = useQueryClient();
+
+  const handleResponse = async (response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  };
+
+  const createComment = async () => {
+    const commentData = { ...inpval };
+    const response = await fetch(`/api/c/comments/${postId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(commentData),
+    });
+
+    return await handleResponse(response);
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: createComment,
+    onMutate: () => setIsPending(true),
+    onError: (error) => {
+      // console.error("Mutation error:", error);
+      setIsPending(false);
+    },
+    onSuccess: (data) => {
+      // console.log("Data added successfully:", data);
+      // alert("Comment added successfully!");
+      queryClient.invalidateQueries(["commentPosts", postId]);
+      setIsPending(false);
+      resetInput();
+    },
+  });
+  const setdata = (e) => {
+    const { name, value } = e.target;
+    setinpval((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const addinpdata = (e) => {
+    e.preventDefault();
+    mutate();
+ 
+  };
+
+  const resetInput = () => {
+    setinpval({ commentext: "" });
+  };
   return (
-    <div>
-      <p>Comments</p>
+    <div className=" border rounded-xl p-2 mt-4">
+      <div className="flex justify-items-center pb-1 space-x-2">
+        <MessageSquareMore />
+        <p className=" font-mono">Comments</p>
+      </div>
+
+      <hr />
       <div className="flex justify-start items-center space-x-2 mt-3">
         <label className="form-control w-full">
           <input
             type="text"
             placeholder="Type here"
             className="input input-bordered w-full "
+            onChange={setdata}
+            value={inpval.commentext}
+            name="commentext"
           />
         </label>
-        <button className="btn btn-outline btn-info rounded-2xl">
+        <button
+          onClick={addinpdata}
+          className="btn btn-outline btn-info rounded-2xl"
+        >
           <Send />
         </button>
       </div>
+      <div>
+        <SugestionComment setinpval={setinpval} postitle={postitle}/>
+      </div>
       <div
-        className="flex justify-center  sm:h-[450px]  mt-3 rounded-lg overflow-hidden "
-        style={{ height: `40vh` }}
+        className="flex justify-start  sm:h-[450px]  mt-3 rounded-lg overflow-hidden "
+        style={{ height: `50vh` }}
       >
         <div className=" overflow-auto pb-16">
-          <CommentView />
+          <CommentView postId={postId} />
         </div>
       </div>
     </div>

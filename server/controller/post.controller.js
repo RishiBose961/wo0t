@@ -1,15 +1,16 @@
 import expressAsyncHandler from "express-async-handler";
 import { v2 as cloudinary } from "cloudinary";
 import Post from "../models/post.model.js";
+import mongoose from "mongoose";
 
 
 
 
 export const createPost = expressAsyncHandler(async (req, res) => {
   try {
-    const { descriptions, category,visibility, date,scheduledate } = req.body;
+    const { descriptions, category, visibility, date, scheduledate } = req.body;
 
-    let {sourceurl} = req.body
+    let { sourceurl } = req.body;
 
     if (!descriptions || !category || !visibility) {
       return res.status(402).json({ error: "Please add all the fields" });
@@ -19,7 +20,6 @@ export const createPost = expressAsyncHandler(async (req, res) => {
       const uploadedResponse = await cloudinary.uploader.upload(sourceurl);
       sourceurl = uploadedResponse.secure_url;
     }
-
 
     const newPost = new Post({
       descriptions,
@@ -34,18 +34,19 @@ export const createPost = expressAsyncHandler(async (req, res) => {
     const savedPost = await newPost.save();
     res.status(201).json(savedPost);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" ,error: error.message});
+    res
+      .status(500)
+      .json({ error: "Internal server error", error: error.message });
   }
 });
-
 
 export const getPosts = expressAsyncHandler(async (req, res) => {
   try {
     const posts = await Post.find({
-      $or: [
-        { visibility: 'public' }
-      ]
-    }).populate('postedBy', 'name username avatar').sort({ createdAt: -1 });; 
+      $or: [{ visibility: "public" }],
+    })
+      .populate("postedBy", "name username avatar")
+      .sort({ createdAt: -1 });
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -53,20 +54,31 @@ export const getPosts = expressAsyncHandler(async (req, res) => {
 });
 
 
-export const getPostIndividual = expressAsyncHandler(async (req, res) => {
+
+
+export const getPostById = expressAsyncHandler(async (req, res) => {
   try {
-    const { descriptions } = req.params;
-    const regex = new RegExp(descriptions, 'i');
-    const posts = await Post.find({ descriptions: { $regex: regex } }).populate(
+    // Extract the ID from request parameters (ensure it's a valid ID)
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid post ID' });
+    }
+
+    // Fetch the post using findById with population
+    const post = await Post.findById(id).populate(
       "postedBy",
-      "username name avatar"
+      "username name avatar" // Specific fields to populate
     );
-    if (posts.length > 0) {
-      res.status(200).json(posts);
+
+    // Handle successful retrieval
+    if (post) {
+      res.status(200).json(post);
     } else {
-      res.status(404).json({ message: "No posts found" });
+      res.status(404).json({ message: "Post not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
+

@@ -1,8 +1,4 @@
-import {
-  LineChart,
-  MessageCircleMoreIcon,
-  Share2
-} from "lucide-react";
+import { LineChart, MessageCircleMoreIcon, Share2 } from "lucide-react";
 import React, { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -28,7 +24,7 @@ const MainComp = () => {
     setError("Image failed to load.");
   };
 
-  
+  const defaultPath = "No posts found";
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -37,11 +33,9 @@ const MainComp = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 mb-4 gap-3">
             <div className=" col-span-2">
               <article className="overflow-hidden rounded-lg border">
-                {isLoading && (
-                  <p>image loading</p>
-                )}
+                {isLoading && <p>image loading</p>}
                 {error && <p>{error}</p>}
-                
+
                 <img
                   alt=""
                   src={i.sourceurl}
@@ -54,7 +48,8 @@ const MainComp = () => {
                   <div className="badge badge-accent badge-outline mb-2">
                     {i.category}
                   </div>
-                  <Link to={`/read/${i.descriptions}`}>
+                  {/* /read/${i.descriptions}`??`/read/${i._id} */}
+                  <Link to={`/read/${i._id}`}>
                     <h3 className="mt-0.5 text-lg line-clamp-2 w-96 text-white">
                       {i.descriptions}
                     </h3>
@@ -78,7 +73,7 @@ const MainComp = () => {
                         {userInfo ? <LikePostHook postby={i?._id} /> : ""}
                         <p>{i?.likeCount}</p>
                       </div>
-                      <Link to={`/read/${i.descriptions}`}>
+                      <Link to={`/read/${i._id}`}>
                         <div className="flex justify-start items-center space-x-2">
                           <MessageCircleMoreIcon />
 

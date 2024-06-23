@@ -8,9 +8,12 @@ import { v2 as cloudinary } from "cloudinary";
 import userRoutes from "./routes/user.routes.js";
 import postRoutes from "./routes/post.routes.js";
 import likeRoutes from "./routes/likes.routes.js";
+import commentRoutes from "./routes/comments.routes.js"
+import followRoutes from "./routes/follow.routes.js"
 
 //db connections
 import connectDB from "./config/db.config.js";
+
 
 const port = process.env.PORT || 5000;
 
@@ -33,6 +36,8 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/li",likeRoutes)
+app.use("/api/c",commentRoutes)
+app.use("/api/f",followRoutes)
 
 app.get("/", (req, res) => res.send("server is ready"));
 

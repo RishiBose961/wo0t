@@ -19,3 +19,13 @@
 ::-webkit-scrollbar-thumb:hover {
 	background: #121212;
 }
+
+@layer utilities {
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	.no-scrollbar::-webkit-scrollbar {
+		height: 8px;
+	}
+ 
+}
+
+
