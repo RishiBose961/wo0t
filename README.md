@@ -1,5 +1,7 @@
                   
- <img src="https://firebasestorage.googleapis.com/v0/b/moto-656ba.appspot.com/o/icon.png?alt=media&token=e9f41c09-d903-41ca-859f-62fddf1860b0" alt="ee" width="400px">
+<div>
+    <img src="https://firebasestorage.googleapis.com/v0/b/moto-656ba.appspot.com/o/icon.png?alt=media&token=e9f41c09-d903-41ca-859f-62fddf1860b0" alt="ee">
+
 <h1 align="center" style="font-weight: bold;">wo0t</h1>
 
 
