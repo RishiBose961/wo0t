@@ -1,11 +1,11 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MessageSquareMore, Send } from "lucide-react";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import CommentView from "./CommentView";
 import SugestionComment from "./SugestionComment";
-import { useSelector } from "react-redux";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const Comments = ({ postId,postitle }) => {
+const Comments = ({ postId, postitle }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const [isPending, setIsPending] = useState(false);
   const [inpval, setinpval] = useState({
@@ -53,25 +53,41 @@ const Comments = ({ postId,postitle }) => {
   const setdata = (e) => {
     const { name, value } = e.target;
     setinpval((prev) => ({ ...prev, [name]: value }));
+
   };
 
   const addinpdata = (e) => {
     e.preventDefault();
     mutate();
- 
   };
 
   const resetInput = () => {
     setinpval({ commentext: "" });
   };
   return (
-    <div className=" border rounded-xl p-2 mt-4">
+    <div className=" border rounded-xl p-2 mt-4 mb-20">
       <div className="flex justify-items-center pb-1 space-x-2">
         <MessageSquareMore />
         <p className=" font-mono">Comments</p>
       </div>
 
       <hr />
+
+      {/* show All Comments */}
+      <div
+        className="flex justify-start  sm:h-[450px]  mt-3 rounded-lg overflow-hidden "
+        style={{ height: `50vh` }}
+      >
+        <div className=" overflow-auto pb-16">
+          <CommentView postId={postId} />
+        </div>
+      </div>
+
+      {/* Gemini api create comment */}
+      <div>
+        <SugestionComment setinpval={setinpval} postitle={postitle} />
+      </div>
+      {/* Input create comment */}
       <div className="flex justify-start items-center space-x-2 mt-3">
         <label className="form-control w-full">
           <input
@@ -89,17 +105,6 @@ const Comments = ({ postId,postitle }) => {
         >
           <Send />
         </button>
-      </div>
-      <div>
-        <SugestionComment setinpval={setinpval} postitle={postitle}/>
-      </div>
-      <div
-        className="flex justify-start  sm:h-[450px]  mt-3 rounded-lg overflow-hidden "
-        style={{ height: `50vh` }}
-      >
-        <div className=" overflow-auto pb-16">
-          <CommentView postId={postId} />
-        </div>
       </div>
     </div>
   );

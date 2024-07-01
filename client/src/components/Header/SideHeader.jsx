@@ -1,14 +1,13 @@
 import React from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import MenusHook from "../../hooks/MenusHook";
-import { useDispatch, useSelector } from "react-redux";
-import { useLogoutMutation } from "../../slices/userApiSlice";
 import { logout } from "../../slices/authSlices";
+import { useLogoutMutation } from "../../slices/userApiSlice";
 
 const SideHeader = () => {
   const { Menus } = MenusHook();
 
-  const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [logoutApiCall] = useLogoutMutation();

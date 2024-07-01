@@ -10,9 +10,9 @@ const InfoPost = ({ dataShow }) => {
           src={dataShow?.sourceurl}
         />
       </div>
-      <span className="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-700">
+      <p className="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 w-fit font-bold text-sm text-purple-700 mt-5">
         {dataShow?.category}
-      </span>
+      </p>
       <h2 class="title-font text-2xl font-medium text-white mt-6 mb-3">
         {dataShow?.descriptions}
       </h2>

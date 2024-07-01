@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useParams } from "react-router-dom";
+import FollowUnFollowButton from "../../components/FollowUnFollow/FollowUnFollowButton";
 
 const SearchProfile = () => {
   const { profile} = useParams("");
@@ -45,6 +46,10 @@ const SearchProfile = () => {
                 {profileData?.name}
               </p>
             <p className="mt-2 text-lg font-semibold text-white">{profileData?.username}</p>
+            <div className="pt-10">
+            <FollowUnFollowButton data={profileData}/>
+            </div>
+           
             {/* <p className="mt-1 text-base text-gray-600">Frontend Developer at DevUI</p> */}
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
 const CommentView = ({ postId }) => {
   const { ref, inView } = useInView();
   const fetchComm = async ({ pageParam }) => {
@@ -31,6 +32,7 @@ const CommentView = ({ postId }) => {
     },
   });
 
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -50,6 +52,8 @@ const CommentView = ({ postId }) => {
   }
 
 
+  
+  
   return (
     <>
       {commentPost?.pages.map((item) =>
@@ -57,11 +61,20 @@ const CommentView = ({ postId }) => {
           <>
             <div ref={ref}>
               <div class="chat chat-start mt-2">
+                <div className="chat-header">
+                  <Link
+                    to={`/${item?.userId?.username}`}
+                    className=" cursor-pointer"
+                  >
+                    {item?.userId?.username}{" "}
+                  </Link>
+                </div>
                 <div class="chat-image avatar">
                   <div class="w-10 rounded-full">
                     <img
                       alt="Tailwind"
-                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                      src={item?.userId?.avatar}
+                      className=" bg-amber-400"
                     />
                   </div>
                 </div>

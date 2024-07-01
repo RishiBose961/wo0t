@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
+import FollowUnFollowButton from "../FollowUnFollow/FollowUnFollowButton";
 
 const MainCompProfile = ({ userIn }) => {
   return (
@@ -28,14 +29,8 @@ const MainCompProfile = ({ userIn }) => {
         </Link>
         {/* Follow Button  */}
         <div className="flex justify-center mt-4">
-          <Button
-            className="inline-flex items-center gap-2 rounded-md
-       bg-amber-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner
-        shadow-white/10 focus:outline-none data-[hover]:bg-amber-600 data-[open]:bg-amber-700 
-        data-[focus]:outline-1 data-[focus]:outline-white"
-          >
-            <HeartHandshake /> Follow
-          </Button>
+          <FollowUnFollowButton data={userIn}/>
+        
         </div>
         {/* Navigation Icon */}
         <div className="flex justify-center items-center space-x-10 mt-6">

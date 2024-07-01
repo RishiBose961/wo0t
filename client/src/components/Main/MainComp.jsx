@@ -7,9 +7,11 @@ import GetAllPostHook from "../../hooks/GetAllPostHook";
 import LikePostHook from "../../hooks/LikePostHook";
 import MainCompProfile from "../Profile/MainCompProfile";
 import DateTimeLeft from "./DateTimeLeft";
+import useConversation from "../../zustand/useConversation";
 
 const MainComp = () => {
   const { postData } = GetAllPostHook();
+  const { selectedPostId,setSelectedPostId } = useConversation();
   const { userInfo } = useSelector((state) => state.auth);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -23,8 +25,6 @@ const MainComp = () => {
     setIsLoading(false);
     setError("Image failed to load.");
   };
-
-  const defaultPath = "No posts found";
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -49,7 +49,7 @@ const MainComp = () => {
                     {i.category}
                   </div>
                   {/* /read/${i.descriptions}`??`/read/${i._id} */}
-                  <Link to={`/read/${i._id}`}>
+                  <Link to={`/read/${i._id}`} onClick={()=>setSelectedPostId(i?._id)}>
                     <h3 className="mt-0.5 text-lg line-clamp-2 w-96 text-white">
                       {i.descriptions}
                     </h3>

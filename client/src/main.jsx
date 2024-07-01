@@ -9,7 +9,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Home from "./page/Home/Home.jsx";
-import ProfileComp from "./components/Profile/ProfileComp.jsx";
 import DashBoard from "./page/DashBoardPage/DashBoard.jsx";
 import CreatePage from "./page/Post/CreatePage.jsx";
 import ChatPage from "./page/chat/ChatPage.jsx";
@@ -23,6 +22,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Individualpost from "./page/Individualpost/Individualpost.jsx";
 import SearchProfile from "./page/SearchProfile/SearchProfile.jsx";
+import { SocketContextProvider } from "./context/ScoketContext.jsx";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +34,6 @@ const router = createBrowserRouter(
       <Route path="/register" element={<RegisterPage />} />
       {/* Protected Route */}
       <Route path="" element={<PrivateRoute />}>
-        <Route path="/profile" element={<ProfileComp />} />
         <Route path="/new" element={<CreatePage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/dashboard" element={<DashBoard />} />
@@ -49,8 +48,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <RouterProvider router={router} />
+        <SocketContextProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <RouterProvider router={router} />
+        </SocketContextProvider>
       </QueryClientProvider>
     </React.StrictMode>
   </Provider>

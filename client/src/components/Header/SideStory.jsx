@@ -14,8 +14,8 @@ const SideStory = () => {
     const maskedSection = "******";
 
     // Extract the start and end parts of the API key
-    const start = apiKey.substring(0, visibleStart);
-    const end = apiKey.substring(apiKey.length - visibleEnd);
+    const start = apiKey?.substring(0, visibleStart);
+    const end = apiKey?.substring(apiKey.length - visibleEnd);
 
     // Combine the parts with the masked section
     const maskedApiKey = `${start}${maskedSection}${end}`;
@@ -25,6 +25,7 @@ const SideStory = () => {
 
   const apiKey = userInfo?.geminiApiKey;
   const maskedApiKey = maskApiKey(apiKey);
+
 
   return (
     <div className="hidden xl:flex h-screen flex-col justify-between border-s">

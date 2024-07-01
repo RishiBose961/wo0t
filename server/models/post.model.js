@@ -10,6 +10,10 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    commentshow:{
+      type: Boolean,
+      default:false,
+    },
     visibility: {
       type: String,
       required: true,
@@ -39,6 +43,9 @@ const postSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+
+
 
 const Post = mongoose.model("Post", postSchema);
 

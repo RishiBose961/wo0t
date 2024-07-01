@@ -40,6 +40,7 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
       email: user.email,
       username: user.username,
       avatar: user.avatar,
+      geminiApiKey: user.geminiApiKey,
       message: "User created successfully",
     });
   } else {
@@ -60,6 +61,7 @@ export const loginUser = expressAsyncHandler(async (req, res) => {
       email: user.email,
       username: user.username,
       avatar: user.avatar,
+      geminiApiKey: user.geminiApiKey
     });
   } else {
     res.status(400);

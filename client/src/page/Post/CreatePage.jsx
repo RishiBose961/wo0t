@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import GeminiPost from "../../components/GeminiComp/GeminiPost";
 import GeminiPostCreate from "../../hooks/GeminiPostCreate";
+import { useSelector } from "react-redux";
 
 const people = [
   "News",
@@ -25,9 +26,12 @@ const people = [
 ];
 
 const CreatePage = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+
   const [descriptions, setDescriptions] = useState("");
   const [sourceurl, setSourceurl] = useState(null);
   const [category, setCategory] = useState("");
+  const [liveChat, setLiveChat] = useState(false);
   const [visibility, setVisibility] = useState("");
   const [date, setDate] = useState("");
   const [scheduledate, setscheduledate] = useState("");
@@ -51,6 +55,7 @@ const CreatePage = () => {
       descriptions,
       sourceurl,
       category,
+      liveChat,
       visibility,
       date,
       scheduledate,
@@ -62,6 +67,7 @@ const CreatePage = () => {
             descriptions,
             sourceurl,
             category,
+            commentshow: liveChat,
             visibility,
             date,
             scheduledate,
@@ -81,7 +87,7 @@ const CreatePage = () => {
         throw new Error(error);
       }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Post created successfully");
       queryClient.invalidateQueries({ queryKey: ["posted"] });
     },
@@ -111,6 +117,7 @@ const CreatePage = () => {
       sourceurl,
       category,
       visibility,
+      liveChat,
       date,
       scheduledate,
     });
@@ -125,6 +132,10 @@ const CreatePage = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleCheckboxChange = () => {
+    setLiveChat((prevLiveChat) => !prevLiveChat); // Toggle the boolean value
   };
 
   return (
@@ -161,23 +172,40 @@ const CreatePage = () => {
                 value={descriptions}
                 onChange={handleTextAreaChange}
               />
-              <button
-                className="absolute bottom-2 right-2  text-white py-1 px-2 rounded"
-                // replace with your button click handler
-              >
-                <Bot onClick={generateCaptions} />
-              </button>
+              {userInfo.geminiApiKey === undefined ? (
+                ""
+              ) : (
+                <button
+                  className="absolute bottom-2 right-2  text-white py-1 px-2 rounded"
+                  // replace with your button click handler
+                >
+                  <Bot onClick={generateCaptions} />
+                </button>
+              )}
             </div>
           </div>
-          {
-            <div
-              className={` badge mt-3  badge-outline ${
-                wordCount >= 200 ? "badge-secondary " : "badge-accent"
-              }`}
-            >
-              {wordCount}/255
+          <div className=" flex justify-between items-center mt-4">
+            {
+              <div
+                className={` badge  badge-outline ${
+                  wordCount >= 200 ? "badge-secondary " : "badge-accent"
+                }`}
+              >
+                {wordCount}/255
+              </div>
+            }
+
+            <div className="flex justify-start items-center space-x-3">
+              <p>Live Chat</p>
+              <input
+                checked={liveChat}
+                onChange={handleCheckboxChange}
+                type="checkbox"
+                className="toggle toggle-error"
+              />
             </div>
-          }
+          </div>
+
           <GeminiPost
             setDescriptions={setDescriptions}
             aigeminigenerate={aigeminigenerate}
@@ -220,6 +248,7 @@ const CreatePage = () => {
               <option value="private">Private</option>
             </select>
           </div>
+
           <div className="mt-4 grid grid-cols-3 gap-2">
             <div className=" col-span-2">
               <label className="text-sm/6 font-medium text-white">
@@ -293,10 +322,32 @@ const CreatePage = () => {
                       {visibility}
                     </div>
                   )}
+
+                  <p>Live Chat is {liveChat ? "enabled" : "disabled"}</p>
                 </div>
               </div>
             </article>
           </div>
+          {liveChat ? (
+            <div role="alert" className="alert mt-5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+              <p className=" text-sm italic">Live Chat available for 24 hours. Chats will not be stored after 24 hours will autoatically Deleted.</p>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import GeminiPostCreate from "../../hooks/GeminiPostCreate";
 import { Sparkles } from "lucide-react";
+import { useSelector } from "react-redux";
 const SugestionComment = ({ setinpval, postitle }) => {
   const { AipostSession } = GeminiPostCreate();
+  
+  const { userInfo } = useSelector((state) => state.auth);
+
 
   const [Loading, setLoading] = useState(false);
   const [aigeminigenerate, setAigeminigenerate] = useState();
@@ -22,7 +26,10 @@ const SugestionComment = ({ setinpval, postitle }) => {
   };
 
   return (
-    <div>
+    <>
+    {
+      userInfo.geminiApiKey === undefined ? "":
+      <div>
     
       <div
         className="flex justify-start mt-3 bg-gradient-to-r cursor-pointer from-violet-200 w-fit p-2 rounded-full
@@ -48,6 +55,9 @@ const SugestionComment = ({ setinpval, postitle }) => {
         ))}
       </ul>
     </div>
+    }
+    </>
+ 
   );
 };
 
