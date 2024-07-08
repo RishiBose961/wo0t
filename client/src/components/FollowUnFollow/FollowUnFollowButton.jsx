@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
-
 const FollowUnFollowButton = ({ data: datas }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const [isPending, setIsPending] = useState(false);
@@ -135,7 +134,7 @@ const FollowUnFollowButton = ({ data: datas }) => {
 
   return (
     <div className="flex justify-center">
-      <Toaster/>
+      <Toaster />
       {isLoading ? (
         "Loading..."
       ) : (
@@ -155,8 +154,9 @@ const FollowUnFollowButton = ({ data: datas }) => {
                   >
                     <HeartHandshake />
                   </Button>
-                  <Link to='/chat'
-                    className="inline-flex items-center gap-2 rounded-xl
+                  <Link
+                    to="/chat"
+                    className=" items-center gap-2 rounded-xl hidden lg:flex
                bg-sky-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner
               shadow-white/10 focus:outline-none data-[hover]:bg-sky-600 data-[open]:bg-sky-700 
                 data-[focus]:outline-1 data-[focus]:outline-white"

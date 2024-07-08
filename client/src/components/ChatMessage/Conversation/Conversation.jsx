@@ -32,6 +32,7 @@ const Conversation = ({ data }) => {
   const isSelected =
     selectedConversation?.[0]?._id === fetchSearchConvData?._id;
 
+
   return (
     <div
       className={`flex justify-start items-center space-x-5 cursor-pointer rounded-2xl mt-5 ${
@@ -42,7 +43,7 @@ const Conversation = ({ data }) => {
       <div className="avatar">
         <div
           className={` ${
-            isOnline ? "ring-success":"ring-primary" 
+            isOnline ? "ring-success" : "ring-primary"
           } ring-offset-base-100 w-12 rounded-full bg-amber-400 ring ring-offset-2`}
         >
           <img src={fetchSearchConvData?.avatar} />

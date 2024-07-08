@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 const BottomNav = () => {
   const { Menus } = MenusHook();
   return (
-    <div className="btm-nav lg:hidden ">
+    <div className="btm-nav h-12 lg:hidden ">
       {Menus.map((item,index) => (
         <NavLink  key={index}
           style={({ isActive }) => {
@@ -13,7 +13,7 @@ const BottomNav = () => {
           }}
           to={item.path}
         >
-          <span className="text-2xl">{item.src}</span>
+          <span className="text-lg">{item.src}</span>
         </NavLink>
       ))}
     </div>

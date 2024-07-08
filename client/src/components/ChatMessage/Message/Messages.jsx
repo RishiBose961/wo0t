@@ -31,10 +31,9 @@ const Messages = ({ message }) => {
         </div>
         <div className="chat-header capitalize font-bold">
           {profileName}
-          <time className="text-xs opacity-50">12:45</time>
         </div>
         <div className={`flex ${chatFlex} items-center`}>
-          <div className="chat-bubble">{message.message}</div>
+          <div className="chat-bubble m-2">{message.message}</div>
         </div>
         <div className="chat-footer opacity-50">Delivered</div>
       </div>

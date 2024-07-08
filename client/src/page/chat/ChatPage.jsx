@@ -3,12 +3,13 @@ import Conversations from '../../components/ChatMessage/Conversation/Conversatio
 import MessageContainer from '../../components/ChatMessage/Message/MessageContainer'
 
 const ChatPage = () => {
+  let height = screen?.height;
   return (
     <div className=' grid grid-cols-3'>
-      <div>
+      <div className=''>
       <Conversations/>  
       </div>
-      <div className=' col-span-2'>
+      <div className=' col-span-2  border-l px-4' style={{ height: height / 1.5 }}>
         <MessageContainer/>
       </div>
    

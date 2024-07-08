@@ -1,12 +1,14 @@
-import React, { useRef, useState } from "react";
-import DateTime from "./DateTime";
 import { QueryClient, useMutation } from "@tanstack/react-query";
-import { Bot, Upload, X } from "lucide-react";
-import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { Bot, BotOff, PickaxeIcon, Upload, X } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
 import GeminiPost from "../../components/GeminiComp/GeminiPost";
 import GeminiPostCreate from "../../hooks/GeminiPostCreate";
-import { useSelector } from "react-redux";
+import DateTime from "./DateTime";
+import GenerateTitlefromLinks from "../../hooks/GenerateTitlefromLinks";
+import MiningTitle from "../../components/MiningTitle/MiningTitle";
 
 const people = [
   "News",
@@ -38,6 +40,8 @@ const CreatePage = () => {
   const [uploaded, setUploaded] = useState();
 
   const { AipostSession } = GeminiPostCreate();
+
+  const { mutation: LinkMutation } = GenerateTitlefromLinks();
 
   const [aigeminigenerate, setAigeminigenerate] = useState();
 
@@ -104,11 +108,11 @@ const CreatePage = () => {
 
   const handleTextAreaChange = (e) => {
     setDescriptions(e.target.value);
-    const trimmedValue = e.target.value.slice(0, 255); // Limit to 20 words
+    const trimmedValue = e.target.value.slice(0, 255); // Limit to 255 words
     setDescriptions(trimmedValue);
   };
 
-  const wordCount = descriptions.length;
+  const wordCount = descriptions?.length;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -137,6 +141,18 @@ const CreatePage = () => {
   const handleCheckboxChange = () => {
     setLiveChat((prevLiveChat) => !prevLiveChat); // Toggle the boolean value
   };
+
+  const generatetiltext = async () => {
+    try {
+      const result = await LinkMutation.mutate({
+        Titlegenbody: descriptions,
+      });
+      setDescriptions(result?.data?.data);
+    } catch (error) {
+      console.error("Error generating text:", error);
+    }
+  };
+  
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -169,18 +185,45 @@ const CreatePage = () => {
                 className="block w-full rounded-lg pe-10 border-none py-1.5 px-3 text-sm/6
               text-white focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2
               data-[focus]:outline-white/25"
+                rows={5}
                 value={descriptions}
                 onChange={handleTextAreaChange}
               />
               {userInfo.geminiApiKey === undefined ? (
                 ""
               ) : (
-                <button
-                  className="absolute bottom-2 right-2  text-white py-1 px-2 rounded"
-                  // replace with your button click handler
-                >
-                  <Bot onClick={generateCaptions} />
-                </button>
+                <>
+                  {descriptions?.length === 0 ? (
+                    <button
+                      className="absolute bottom-2 right-2  text-white py-1 px-2 rounded"
+                      // replace with your button click handler
+                    >
+                      <BotOff />
+                    </button>
+                  ) : (
+                    <button
+                      className="absolute bottom-2 right-2  text-white py-1 px-2 rounded"
+                      // replace with your button click handler
+                    >
+                      <Bot onClick={generateCaptions} />
+                    </button>
+                  )}
+
+                  {LinkMutation.isPending ? (
+                    <div className="absolute bottom-2 right-12  text-white px-2 rounded">
+                      <span className="loading loading-spinner loading-md"></span>
+
+                    </div>
+                  ) : (
+                    <button
+                      onClick={generatetiltext}
+                      className="absolute bottom-2 right-12  text-white py-1 px-2 rounded"
+                      // replace with your button click handler
+                    >
+                      <PickaxeIcon />
+                    </button>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -188,10 +231,10 @@ const CreatePage = () => {
             {
               <div
                 className={` badge  badge-outline ${
-                  wordCount >= 200 ? "badge-secondary " : "badge-accent"
+                  wordCount || LinkMutation?.data?.data.length >= 200 ? "badge-secondary " : "badge-accent"
                 }`}
               >
-                {wordCount}/255
+                {wordCount || LinkMutation?.data?.data.length}/255
               </div>
             }
 
@@ -205,6 +248,8 @@ const CreatePage = () => {
               />
             </div>
           </div>
+
+          <MiningTitle data={LinkMutation?.data?.data} setDescriptions={setDescriptions}/>
 
           <GeminiPost
             setDescriptions={setDescriptions}
@@ -343,7 +388,10 @@ const CreatePage = () => {
                   d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                 />
               </svg>
-              <p className=" text-sm italic">Live Chat available for 24 hours. Chats will not be stored after 24 hours will autoatically Deleted.</p>
+              <p className=" text-sm italic">
+                Live Chat available for 24 hours. Chats will not be stored after
+                24 hours will autoatically Deleted.
+              </p>
             </div>
           ) : (
             ""

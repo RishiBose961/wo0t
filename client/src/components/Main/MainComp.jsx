@@ -8,10 +8,11 @@ import LikePostHook from "../../hooks/LikePostHook";
 import MainCompProfile from "../Profile/MainCompProfile";
 import DateTimeLeft from "./DateTimeLeft";
 import useConversation from "../../zustand/useConversation";
+import BottomProfile from "../Profile/BottomProfile";
 
 const MainComp = () => {
   const { postData } = GetAllPostHook();
-  const { selectedPostId,setSelectedPostId } = useConversation();
+  const { setSelectedPostId } = useConversation();
   const { userInfo } = useSelector((state) => state.auth);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +34,9 @@ const MainComp = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 mb-4 gap-3">
             <div className=" col-span-2">
               <article className="overflow-hidden rounded-lg border">
+                <div className="lg:hidden">
+                  <BottomProfile userIn={i.postedBy} />
+                </div>
                 {isLoading && <p>image loading</p>}
                 {error && <p>{error}</p>}
 
@@ -49,14 +53,17 @@ const MainComp = () => {
                     {i.category}
                   </div>
                   {/* /read/${i.descriptions}`??`/read/${i._id} */}
-                  <Link to={`/read/${i._id}`} onClick={()=>setSelectedPostId(i?._id)}>
-                    <h3 className="mt-0.5 text-lg line-clamp-2 w-96 text-white">
+                  <Link
+                    to={`/read/${i._id}`}
+                    onClick={() => setSelectedPostId(i?._id)}
+                  >
+                    <h3 className="mt-0.5 text-lg line-clamp-1 lg:w-96 text-white">
                       {i.descriptions}
                     </h3>
                   </Link>
                   <div>
                     {i.scheduledate === "" ? (
-                      <div className="flex justify-start items-center mt-4">
+                      <div className="flex justify-start text-sm font-mono items-center mt-4">
                         {/* <p>Publish</p> */}
                         {format(i.createdAt, "en_US")}
                       </div>
@@ -91,6 +98,7 @@ const MainComp = () => {
                 </div>
               </article>
             </div>
+
             <div className="hidden lg:flex w-fit">
               <MainCompProfile userIn={i.postedBy} />
             </div>

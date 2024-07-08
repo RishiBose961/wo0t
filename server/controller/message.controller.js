@@ -1,19 +1,12 @@
 import expressAsyncHandler from "express-async-handler";
 import Message from "../models/message.model.js";
 import { getReceiverScoketId, io } from "../socket/socket.js";
-import Conversation from "../models/conservation.model.js";
 
 export const sendMessage = expressAsyncHandler(async (req, res) => {
   try {
     const { message, conversationId } = req.body;
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
-
-    let conversation = await Conversation.findOne({
-      participants: {
-        $all: [senderId, receiverId],
-      },
-    });
 
     if (!message || !conversationId) {
       return res.status(500).json({ message: "Please Fill All Fields" });
