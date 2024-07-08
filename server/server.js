@@ -47,7 +47,7 @@ app.use("/api/f", followRoutes);
 app.use("/api/c", conversationRoutes);
 app.use("/api/m", messageRoutes);
 app.use("/api/l", liveRoutes);
-app.get("/", (req, res) => res.send("server is ready"));
+
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
