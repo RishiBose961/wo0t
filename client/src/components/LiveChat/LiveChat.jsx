@@ -12,7 +12,6 @@ const LiveChat = () => {
 
   const { livemessages, loading } = useGetLiveMessage();
 
-
   useListenLiveMeesage();
 
   return (
@@ -44,28 +43,30 @@ const LiveChat = () => {
                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               ></path>
             </svg>
-            <p className=" text-sm italic">Live Message will be avaliable for 24 hrs after that delete automatically</p>
+            <p className=" text-sm italic">
+              Live Message will be avaliable for 24 hrs after that delete
+              automatically
+            </p>
           </div>
           {livemessages?.map((i) => (
             <LiveChatShow data={i} />
           ))}
-
-          {/* <CommentView postId={postId} /> */}
         </div>
       </div>
 
       {/* Input create comment */}
-      {
-        userInfo ?  <LiveInputChat /> :<div className="bg-black/80 px-4 py-3 rounded-xl text-white">
-        <p className="text-center text-sm font-medium ">
-         Login
-          <Link to='/login' className="inline-block underline">
-            To Start Live Chat
-          </Link>
-        </p>
-      </div>
-      }
-     
+      {userInfo ? (
+        <LiveInputChat />
+      ) : (
+        <div className="bg-black/80 px-4 py-3 rounded-xl text-white">
+          <p className="text-center text-sm font-medium ">
+            Login
+            <Link to="/login" className="inline-block underline">
+              To Start Live Chat
+            </Link>
+          </p>
+        </div>
+      )}
     </div>
   );
 };

@@ -26,13 +26,11 @@ const Individualpost = () => {
     return <span>Error: {error.message}</span>;
   }
 
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
+  
 
   const dataShow = singlepostData;
 
-  const createdAt = new Date(dataShow.createdAt);
+  const createdAt = new Date(dataShow?.createdAt);
 
   const now = new Date();
 
@@ -46,7 +44,7 @@ const Individualpost = () => {
     <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className=" col-span-2">
-          <InfoPost dataShow={dataShow} />
+          <InfoPost dataShow={dataShow} isPending={isPending}/>
         </div>
         <div className="flex justify-center">
           <div className="w-full max-w-md">

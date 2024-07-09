@@ -16,7 +16,11 @@ const GetAllPostHook = () => {
         queryKey: ["posted"],
         queryFn: fetchpost,
       });
-    return {postData}
+
+      // if (isError) {
+      //   <span>{error.message}</span>
+      // }
+    return {postData,isPending}
 }
 
 export default GetAllPostHook
