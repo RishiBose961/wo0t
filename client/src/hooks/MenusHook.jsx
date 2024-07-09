@@ -1,23 +1,19 @@
-import React from "react";
 import {
-  ChefHat,
   Edit2,
   Home,
   LayoutDashboardIcon,
-  MessageSquareHeart,
-  User,
+  MessageSquareHeart
 } from "lucide-react";
-import { useSelector } from "react-redux";
+import React from "react";
 
 const MenusHook = () => {
-  const { userInfo } = useSelector((state) => state.auth);
 
   const Menus = [
     { title: "Home", path: "/", src: <Home /> },
     { title: "Create", path: "/new", src: <Edit2 /> },
     { title: "Chat", path: "/chat", src: <MessageSquareHeart /> },
     { title: "Dashboard", path: "/dashboard", src: <LayoutDashboardIcon /> },
-    { title: "Profile", path: `/${userInfo?.username}`, src: <User /> },
+
   ];
 
   return { Menus };

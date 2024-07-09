@@ -1,4 +1,4 @@
-import { LineChart, MessageCircleMoreIcon, Share2 } from "lucide-react";
+import { Heart, LineChart, MessageCircleMoreIcon, Share2 } from "lucide-react";
 import React, { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -77,7 +77,13 @@ const MainComp = () => {
                   <div className="mt-2 border-t">
                     <div className="flex justify-center items-center space-x-6 mt-4">
                       <div className="flex justify-start items-center space-x-2">
-                        {userInfo ? <LikePostHook postby={i?._id} /> : ""}
+                        {userInfo ? (
+                          <LikePostHook postby={i?._id} />
+                        ) : (
+                          <Link to="/login">
+                            <Heart />
+                          </Link>
+                        )}
                         <p>{i?.likeCount}</p>
                       </div>
                       <Link to={`/read/${i._id}`}>
@@ -100,7 +106,7 @@ const MainComp = () => {
             </div>
 
             <div className="hidden lg:flex w-fit">
-              <MainCompProfile userIn={i.postedBy} />
+              <MainCompProfile userIn={i?.postedBy} />
             </div>
           </div>
         </Fragment>

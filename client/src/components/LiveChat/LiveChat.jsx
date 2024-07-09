@@ -4,8 +4,12 @@ import useGetLiveMessage from "../../hooks/useGetLiveMessage";
 import useListenLiveMeesage from "../../hooks/useListenLiveMeesage";
 import LiveChatShow from "./LiveChatShow";
 import LiveInputChat from "./LiveInputChat";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const LiveChat = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+
   const { livemessages, loading } = useGetLiveMessage();
 
 
@@ -42,7 +46,7 @@ const LiveChat = () => {
             </svg>
             <p className=" text-sm italic">Live Message will be avaliable for 24 hrs after that delete automatically</p>
           </div>
-          {livemessages.map((i) => (
+          {livemessages?.map((i) => (
             <LiveChatShow data={i} />
           ))}
 
@@ -51,7 +55,17 @@ const LiveChat = () => {
       </div>
 
       {/* Input create comment */}
-      <LiveInputChat />
+      {
+        userInfo ?  <LiveInputChat /> :<div className="bg-black/80 px-4 py-3 rounded-xl text-white">
+        <p className="text-center text-sm font-medium ">
+         Login
+          <Link to='/login' className="inline-block underline">
+            To Start Live Chat
+          </Link>
+        </p>
+      </div>
+      }
+     
     </div>
   );
 };

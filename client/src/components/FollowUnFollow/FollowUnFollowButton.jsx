@@ -4,6 +4,7 @@ import {
   HeartHandshake,
   MessageCircleHeartIcon,
   MessageSquareHeartIcon,
+  UserCheck,
 } from "lucide-react";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -23,7 +24,7 @@ const FollowUnFollowButton = ({ data: datas }) => {
   } = useQuery({
     queryKey: ["followbuts"],
     queryFn: async () => {
-      return await fetch(`/api/f/getfollowing/${userInfo._id}`).then((res) =>
+      return await fetch(`/api/f/getfollowing/${userInfo?._id}`).then((res) =>
         res.json()
       );
     },
@@ -128,56 +129,64 @@ const FollowUnFollowButton = ({ data: datas }) => {
     unfollows();
   };
 
-  const folo = followbut
-    ?.map((item) => item.following._id)
-    .includes(datas?._id);
+  const folo = Array.isArray(followbut)
+    ? followbut.map((item) => item.following._id).includes(datas?._id)
+    : false;
 
   return (
     <div className="flex justify-center">
       <Toaster />
-      {isLoading ? (
-        "Loading..."
-      ) : (
+
+      {userInfo ? (
         <>
-          {userInfo?._id === datas?._id ? (
-            ""
+          {" "}
+          {isLoading ? (
+            "Loading..."
           ) : (
             <>
-              {folo ? (
-                <div className="flex justify-between items-center space-x-4">
-                  <Button
-                    className="inline-flex items-center gap-2 rounded-xl
-              bg-rose-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner
-              shadow-white/10 focus:outline-none data-[hover]:bg-rose-600 data-[open]:bg-rose-700 
-                data-[focus]:outline-1 data-[focus]:outline-white"
-                    onClick={handleUnFollowUser}
-                  >
-                    <HeartHandshake />
-                  </Button>
-                  <Link
-                    to="/chat"
-                    className=" items-center gap-2 rounded-xl hidden lg:flex
-               bg-sky-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner
-              shadow-white/10 focus:outline-none data-[hover]:bg-sky-600 data-[open]:bg-sky-700 
-                data-[focus]:outline-1 data-[focus]:outline-white"
-                  >
-                    <MessageSquareHeartIcon />
-                  </Link>
-                </div>
+              {userInfo?._id === datas?._id ? (
+                ""
               ) : (
-                <Button
-                  className="inline-flex items-center gap-2 rounded-md
-                bg-amber-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner
-                shadow-white/10 focus:outline-none data-[hover]:bg-amber-600 data-[open]:bg-amber-700 
+                <>
+                  {folo ? (
+                    <div className="flex justify-between items-center space-x-4">
+                      <Button
+                        className="inline-flex items-center gap-2 rounded-xl
+                bg-rose-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner
+                shadow-white/10 focus:outline-none data-[hover]:bg-rose-600 data-[open]:bg-rose-700 
                   data-[focus]:outline-1 data-[focus]:outline-white"
-                  onClick={handleFollowUser}
-                >
-                  <HeartHandshake /> Follow
-                </Button>
+                        onClick={handleUnFollowUser}
+                      >
+                        <HeartHandshake />
+                      </Button>
+                      <Link
+                        to="/chat"
+                        className=" items-center gap-2 rounded-xl hidden lg:flex
+                 bg-sky-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner
+                shadow-white/10 focus:outline-none data-[hover]:bg-sky-600 data-[open]:bg-sky-700 
+                  data-[focus]:outline-1 data-[focus]:outline-white"
+                      >
+                        <MessageSquareHeartIcon />
+                      </Link>
+                    </div>
+                  ) : (
+                    <Button
+                      className="inline-flex items-center gap-2 rounded-md
+                  bg-amber-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner
+                  shadow-white/10 focus:outline-none data-[hover]:bg-amber-600 data-[open]:bg-amber-700 
+                    data-[focus]:outline-1 data-[focus]:outline-white"
+                      onClick={handleFollowUser}
+                    >
+                      <HeartHandshake /> Follow
+                    </Button>
+                  )}
+                </>
               )}
             </>
           )}
         </>
+      ) : (
+        ""
       )}
     </div>
   );

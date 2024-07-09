@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import CommentView from "./CommentView";
 import SugestionComment from "./SugestionComment";
+import { Link } from "react-router-dom";
 
 const Comments = ({ postId, postitle }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -53,7 +54,6 @@ const Comments = ({ postId, postitle }) => {
   const setdata = (e) => {
     const { name, value } = e.target;
     setinpval((prev) => ({ ...prev, [name]: value }));
-
   };
 
   const addinpdata = (e) => {
@@ -84,28 +84,41 @@ const Comments = ({ postId, postitle }) => {
       </div>
 
       {/* Gemini api create comment */}
-      <div>
-        <SugestionComment setinpval={setinpval} postitle={postitle} />
-      </div>
-      {/* Input create comment */}
-      <div className="flex justify-start items-center space-x-2 mt-3">
-        <label className="form-control w-full">
-          <input
-            type="text"
-            placeholder="Type here"
-            className="input input-bordered w-full "
-            onChange={setdata}
-            value={inpval.commentext}
-            name="commentext"
-          />
-        </label>
-        <button
-          onClick={addinpdata}
-          className="btn btn-outline btn-info rounded-2xl"
-        >
-          <Send />
-        </button>
-      </div>
+      {userInfo ? (
+        <>
+          <div>
+            <SugestionComment setinpval={setinpval} postitle={postitle} />
+          </div>
+          {/* Input create comment */}
+          <div className="flex justify-start items-center space-x-2 mt-3">
+            <label className="form-control w-full">
+              <input
+                type="text"
+                placeholder="Type here"
+                className="input input-bordered w-full "
+                onChange={setdata}
+                value={inpval.commentext}
+                name="commentext"
+              />
+            </label>
+            <button
+              onClick={addinpdata}
+              className="btn btn-outline btn-info rounded-2xl"
+            >
+              <Send />
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className="bg-black/80 px-4 py-3 rounded-xl text-white">
+          <p className="text-center text-sm font-medium ">
+           Login
+            <Link to='/login' className="inline-block underline">
+              To Start Chat
+            </Link>
+          </p>
+        </div>
+      )}
     </div>
   );
 };

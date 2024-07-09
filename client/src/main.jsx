@@ -32,13 +32,13 @@ const router = createBrowserRouter(
       <Route index={true} path="/" element={<Home />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/:profile" element={<SearchProfile />} />
+      <Route path="/read/:id" element={<Individualpost />} />
       {/* Protected Route */}
       <Route path="" element={<PrivateRoute />}>
         <Route path="/new" element={<CreatePage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/dashboard" element={<DashBoard />} />
-        <Route path="/read/:id" element={<Individualpost />} />
-        <Route path="/:profile" element={<SearchProfile />} />
       </Route>
     </Route>
   )
