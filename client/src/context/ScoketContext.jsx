@@ -17,11 +17,11 @@ export const SocketContextProvider = ({ children }) => {
   const { userInfo } = useSelector((state) => state.auth);
 
 
-  const url = import.meta.env.VITE_SOME_KEY === 'development' ? "http://localhost:5000":"https://wo0t.vercel.app/";
+  // const url = import.meta.env.VITE_SOME_KEY === 'development' ? "http://localhost:5000":"https://wo0t.vercel.app/";
 
   useEffect(() => {
     if (userInfo) {
-      const socket = io(url,{
+      const socket = io("https://wo0t.vercel.app/",{
         query: {
           userId: userInfo._id,
         },
