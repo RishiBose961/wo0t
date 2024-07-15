@@ -1,13 +1,18 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { Link } from "react-router-dom";
-const CommentView = ({ postId }) => {
+import { Link, useLocation } from "react-router-dom";
+const CommentView = () => {
+  const location = useLocation();
+
+  const url = location.pathname;
+
+  // Split the URL at the last slash (/)
+  const id = url.split("/").pop();
+
   const { ref, inView } = useInView();
   const fetchComm = async ({ pageParam }) => {
-    const res = await fetch(
-      `/api/c/posts/${postId}/comments?page=${pageParam}`
-    );
+    const res = await fetch(`/api/c/posts/${id}/comments?page=${pageParam}`);
     return res.json();
   };
 
@@ -32,7 +37,6 @@ const CommentView = ({ postId }) => {
     },
   });
 
-
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -51,9 +55,6 @@ const CommentView = ({ postId }) => {
     return <span>Error: {error.message}</span>;
   }
 
-
-  
-  
   return (
     <>
       {commentPost?.pages.map((item) =>

@@ -92,7 +92,6 @@ const PROD_CONFIG = {
   ignoreDefaultArgs: ["--disable-extensions"],
 };
 
-
 export const miningTitle = expressAsyncHandler(async (req, res) => {
   const { Titlegenbody } = req.body;
   try {
@@ -109,5 +108,33 @@ export const miningTitle = expressAsyncHandler(async (req, res) => {
     await browser.close();
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+export const showReleatedPosts = expressAsyncHandler(async (req, res) => {
+  const { category, postId } = req.params;
+  const regex = new RegExp(category, "i");
+
+  try {
+    const posts = await Post.find({
+      category: { $regex: regex },
+      _id: { $ne: postId }, // Exclude the post with the given ID
+    }).select("category descriptions sourceurl postedBy createdAt");
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+export const getPostsByUser = expressAsyncHandler(async (req, res) => {
+  const userId = req.user.id; // Assuming userId is passed as a route parameter
+  try {
+    const posts = await Post.find({ postedBy: userId });
+    // if (!posts || posts.length === 0) {
+    //   return res.status(404).json({ message: "No posts found for this user" });
+    // }
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });

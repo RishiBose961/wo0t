@@ -14,6 +14,7 @@ import followRoutes from "./routes/follow.routes.js";
 import conversationRoutes from "./routes/conversation.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import liveRoutes from "./routes/livechat.routes.js";
+import dashRoutes from "./routes/dashboard.routes.js"
 
 import { app, server } from "./socket/socket.js";
 
@@ -47,6 +48,7 @@ app.use("/api/f", followRoutes);
 app.use("/api/c", conversationRoutes);
 app.use("/api/m", messageRoutes);
 app.use("/api/l", liveRoutes);
+app.use("/api/das",dashRoutes)
 
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
