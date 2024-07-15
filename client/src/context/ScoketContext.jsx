@@ -17,11 +17,11 @@ export const SocketContextProvider = ({ children }) => {
   const { userInfo } = useSelector((state) => state.auth);
 
 
-  const url = import.meta.env.VITE_SOME_KEY === 'development' ? "http://localhost:5000":"https://wo0t.onrender.com";
+  // const url = import.meta.env.VITE_SOME_KEY === 'development' ? "http://localhost:5000":"https://wo0t.onrender.com";
 
   useEffect(() => {
     if (userInfo) {
-      const socket = io(url,{
+      const socket = io('https://wo0t.onrender.com',{
         query: {
           userId: userInfo._id,
         },
