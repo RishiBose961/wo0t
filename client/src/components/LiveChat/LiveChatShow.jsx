@@ -3,7 +3,6 @@ import React from "react";
 
 const LiveChatShow = ({ data }) => {
 
-  console.log(data);
   const fetchSearchConvs = async () => {
     const res = await fetch(`/api/c/search?userId=${data?.userId}`);
     return res.json();
