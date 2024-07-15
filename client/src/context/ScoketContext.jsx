@@ -21,7 +21,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (userInfo) {
-      const socket = io("https://wo0t.vercel.app/",{
+      const socket = io("https://wo0t.vercel.app",{
         query: {
           userId: userInfo._id,
         },
