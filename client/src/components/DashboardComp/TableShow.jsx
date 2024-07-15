@@ -2,6 +2,7 @@ import { Edit2, Trash2Icon } from "lucide-react";
 import React from "react";
 import useDashBoardPost from "../../hooks/DashboardHook/useDashBoardPost";
 import { Link } from "react-router-dom";
+import CountComment from "../Main/CountComment";
 const TableShow = () => {
   const { postUserData } = useDashBoardPost();
 
@@ -13,6 +14,7 @@ const TableShow = () => {
           <tr className=" border-white">
             <th>Title</th>
             <th>Likes</th>
+            <th>Comment</th>
             <th>Category</th>
             <th className="text-center">U/D</th>
           </tr>
@@ -28,8 +30,9 @@ const TableShow = () => {
                
               </td>
               <td>
-                <p>{x.likeCount}</p>
+                <p className=" text-center">{x.likeCount}</p>
               </td>
+              <td className=" text-center"><CountComment postd={x._id}/></td>
               <td>{x.category}</td>
               <th className="flex">
                 <button className="btn btn-xs">

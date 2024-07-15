@@ -9,6 +9,7 @@ import MainCompProfile from "../Profile/MainCompProfile";
 import DateTimeLeft from "./DateTimeLeft";
 import useConversation from "../../zustand/useConversation";
 import BottomProfile from "../Profile/BottomProfile";
+import CountComment from "./CountComment";
 
 const MainComp = () => {
   const { postData, isPending } = GetAllPostHook();
@@ -26,6 +27,7 @@ const MainComp = () => {
     setIsLoading(false);
     setError("Image failed to load.");
   };
+  
 
 
   return (
@@ -98,7 +100,7 @@ const MainComp = () => {
                             <div className="flex justify-start items-center space-x-2">
                               <MessageCircleMoreIcon />
 
-                              <span>5</span>
+                              <CountComment postd={i._id}/>
                             </div>
                           </Link>
                           <div className="flex justify-start items-center space-x-2">

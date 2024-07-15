@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import CommentView from "./CommentView";
 import SugestionComment from "./SugestionComment";
 import { Link } from "react-router-dom";
+import CountComment from "../Main/CountComment";
 
 const Comments = ({ postId, postitle }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -68,7 +69,8 @@ const Comments = ({ postId, postitle }) => {
     <div className=" border rounded-xl p-2 mt-4 mb-20">
       <div className="flex justify-items-center pb-1 space-x-2">
         <MessageSquareMore />
-        <p className=" font-mono">Comments</p>
+        <p className=" font-mono">Comments</p> 
+        <CountComment postd={postId}/>
       </div>
 
       <hr />

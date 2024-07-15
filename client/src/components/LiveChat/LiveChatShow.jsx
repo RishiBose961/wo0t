@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
 const LiveChatShow = ({ data }) => {
+
+  console.log(data);
   const fetchSearchConvs = async () => {
     const res = await fetch(`/api/c/search?userId=${data?.userId}`);
     return res.json();
@@ -24,6 +26,7 @@ const LiveChatShow = ({ data }) => {
   if (isPending) {
     return <div>Loading...</div>;
   }
+
 
   return (
     <div className="chat chat-start">

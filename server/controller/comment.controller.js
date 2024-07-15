@@ -65,3 +65,16 @@ export const getCommentsByPostId = expressAsyncHandler(async (req, res) => {
   }
 });
 
+export const getCountCommentPostId = expressAsyncHandler(async (req, res) => {
+  
+  const { postId } = req.params;
+  try {
+    const count = await Comment.countDocuments({ postId });
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+})
+
+
+
