@@ -4,8 +4,7 @@ import React from "react";
 import useConversation from "../../zustand/useConversation";
 
 const ShowReleted = ({ dataShows,dataShowid }) => {
-
-  console.log(dataShowid);
+  
   const { setSelectedPostId } = useConversation();
   const fetchpostRelated = async () => {
     const res = await fetch(`/api/post/find/${dataShows}/${dataShowid}`);         

@@ -39,8 +39,6 @@ const Individualpost = () => {
   // Convert the time difference to hours
   const hoursDifference = timeDifference / (1000 * 60 * 60);
 
-  console.log(dataShow);
-
   return (
     <div
       className="flex justify-center  sm:h-[450px]  mt-3 rounded-lg overflow-hidden "
