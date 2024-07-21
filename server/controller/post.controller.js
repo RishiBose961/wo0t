@@ -2,7 +2,6 @@ import expressAsyncHandler from "express-async-handler";
 import { v2 as cloudinary } from "cloudinary";
 import Post from "../models/post.model.js";
 import mongoose from "mongoose";
-import puppeteer from "puppeteer";
 
 export const createPost = expressAsyncHandler(async (req, res) => {
   try {
@@ -85,31 +84,6 @@ export const getPostById = expressAsyncHandler(async (req, res) => {
   }
 });
 
-const PROD_CONFIG = {
-  headless: true,
-  ignoreHTTPSErrors: true,
-  args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  ignoreDefaultArgs: ["--disable-extensions"],
-};
-
-export const miningTitle = expressAsyncHandler(async (req, res) => {
-  const { Titlegenbody } = req.body;
-  try {
-    const browser = await puppeteer.launch(PROD_CONFIG);
-    const page = await browser.newPage();
-
-    // Navigate the page to a URL.
-    await page.goto(Titlegenbody);
-
-    const content = await page.title();
-
-    res.status(200).json(content);
-
-    await browser.close();
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
 
 export const showReleatedPosts = expressAsyncHandler(async (req, res) => {
   const { category, postId } = req.params;

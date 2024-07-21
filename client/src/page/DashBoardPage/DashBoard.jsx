@@ -4,7 +4,7 @@ import TableShow from '../../components/DashboardComp/TableShow'
 
 const DashBoard = () => {
   return (
-    <div>
+    <div className=' max-w-7xl mx-auto'>
       <LikeCountChart/>
       <TableShow/>
     </div>

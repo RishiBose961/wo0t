@@ -24,6 +24,7 @@ import Individualpost from "./page/Individualpost/Individualpost.jsx";
 import SearchProfile from "./page/SearchProfile/SearchProfile.jsx";
 import { SocketContextProvider } from "./context/ScoketContext.jsx";
 
+
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter(

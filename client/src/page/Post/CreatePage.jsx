@@ -1,14 +1,12 @@
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { Bot, BotOff, PickaxeIcon, Upload, X } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { Bot, BotOff, Upload, X } from "lucide-react";
+import React, { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import GeminiPost from "../../components/GeminiComp/GeminiPost";
 import GeminiPostCreate from "../../hooks/GeminiPostCreate";
 import DateTime from "./DateTime";
-import GenerateTitlefromLinks from "../../hooks/GenerateTitlefromLinks";
-import MiningTitle from "../../components/MiningTitle/MiningTitle";
 
 const people = [
   "News",
@@ -40,8 +38,6 @@ const CreatePage = () => {
   const [uploaded, setUploaded] = useState();
 
   const { AipostSession } = GeminiPostCreate();
-
-  const { mutation: LinkMutation } = GenerateTitlefromLinks();
 
   const [aigeminigenerate, setAigeminigenerate] = useState();
 
@@ -142,18 +138,6 @@ const CreatePage = () => {
     setLiveChat((prevLiveChat) => !prevLiveChat); // Toggle the boolean value
   };
 
-  const generatetiltext = async () => {
-    try {
-      const result = await LinkMutation.mutate({
-        Titlegenbody: descriptions,
-      });
-      setDescriptions(result?.data?.data);
-    } catch (error) {
-      console.error("Error generating text:", error);
-    }
-  };
-  
-
   return (
     <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
       <Toaster />
@@ -208,21 +192,6 @@ const CreatePage = () => {
                       <Bot onClick={generateCaptions} />
                     </button>
                   )}
-
-                  {LinkMutation.isPending ? (
-                    <div className="absolute bottom-2 right-12  text-white px-2 rounded">
-                      <span className="loading loading-spinner loading-md"></span>
-
-                    </div>
-                  ) : (
-                    <button
-                      onClick={generatetiltext}
-                      className="absolute bottom-2 right-12  text-white py-1 px-2 rounded"
-                      // replace with your button click handler
-                    >
-                      <PickaxeIcon />
-                    </button>
-                  )}
                 </>
               )}
             </div>
@@ -231,10 +200,10 @@ const CreatePage = () => {
             {
               <div
                 className={` badge  badge-outline ${
-                  wordCount || LinkMutation?.data?.data.length >= 200 ? "badge-secondary " : "badge-accent"
+                  wordCount >= 200 ? "badge-secondary " : "badge-accent"
                 }`}
               >
-                {wordCount || LinkMutation?.data?.data.length}/255
+                {wordCount} / 255
               </div>
             }
 
@@ -248,8 +217,6 @@ const CreatePage = () => {
               />
             </div>
           </div>
-
-          <MiningTitle data={LinkMutation?.data?.data} setDescriptions={setDescriptions}/>
 
           <GeminiPost
             setDescriptions={setDescriptions}

@@ -65,6 +65,9 @@ const LikePostHook = ({ postby }) => {
         },
       });
       // console.log("Data added successfully:", data);
+      // Cancel any outgoing refetches
+      queryClient.cancelQueries(["likeposts"]); 
+      
       queryClient.invalidateQueries(["likeposts"]);
       setIsPending(false);
     },
@@ -111,6 +114,7 @@ const LikePostHook = ({ postby }) => {
           color: "#fff",
         },
       });
+      queryClient.cancelQueries(["likeposts"]); 
       queryClient.invalidateQueries(["likeposts"]);
       setIsPending(false);
     },

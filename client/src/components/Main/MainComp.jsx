@@ -31,7 +31,7 @@ const MainComp = () => {
 
 
   return (
-    <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-screen-xl lg:px-4">
       {isPending ? (
         <div className=" bg-black/80 h-10 w-10 flex justify-center rounded-full">
            <span className="loading loading-spinner loading-md"></span>
