@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import MenusHook from "../../hooks/MenusHook";
 import { logout } from "../../slices/authSlices";
@@ -8,20 +8,20 @@ import { useLogoutMutation } from "../../slices/userApiSlice";
 const SideHeader = () => {
   const { Menus } = MenusHook();
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
+  const { userInfo } = useSelector((state) => state.auth);
 
-
-  const logoutHandler = async()=>{
+  const logoutHandler = async () => {
     try {
       await logoutApiCall().unwrap();
-      dispatch(logout())
-      navigate('/')
+      dispatch(logout());
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div className="hidden lg:flex h-screen w-16 flex-col justify-between border-e ">
@@ -33,7 +33,7 @@ const SideHeader = () => {
         <div>
           <div className="px-2">
             <ul className="space-y-1 text-white pt-4">
-              {Menus.map((item,index) => (
+              {Menus.map((item, index) => (
                 <li key={index}>
                   <NavLink
                     style={({ isActive }) => {
@@ -55,8 +55,8 @@ const SideHeader = () => {
         </div>
       </div>
 
-      <div className="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2">
-        
+      {userInfo && (
+        <div className="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2">
           <button
             onClick={logoutHandler}
             className="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
@@ -80,8 +80,8 @@ const SideHeader = () => {
               Logout
             </span>
           </button>
-    
-      </div>
+        </div>
+      )}
     </div>
   );
 };

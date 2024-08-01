@@ -4,9 +4,12 @@ import TableShow from '../../components/DashboardComp/TableShow'
 
 const DashBoard = () => {
   return (
-    <div className=' max-w-7xl mx-auto'>
-      <LikeCountChart/>
+    <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+      <LikeCountChart/> 
+      
       <TableShow/>
+    
+    
     </div>
   )
 }

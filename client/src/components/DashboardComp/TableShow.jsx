@@ -21,29 +21,31 @@ const TableShow = () => {
         </thead>
         <tbody>
           {/* row 1 */}
-          {postUserData?.map((x, i) => (
-            <tr className=" border-gray-400 border-dashed">
-              <td>
-                <Link to={`/read/${x._id}`}>
-                <p>{x.descriptions}</p>
-                </Link>
-               
-              </td>
-              <td>
-                <p className=" text-center">{x.likeCount}</p>
-              </td>
-              <td className=" text-center"><CountComment postd={x._id}/></td>
-              <td>{x.category}</td>
-              <th className="flex">
-                <button className="btn btn-xs">
-                  <Edit2/>
-                </button>
-                <button className="btn btn-xs">
-                  <Trash2Icon/>
-                </button>
-              </th>
-            </tr>
-          ))}
+          {Array.isArray(postUserData) &&
+            postUserData.map((x, i) => (
+              <tr className=" border-gray-400 border-dashed">
+                <td>
+                  <Link to={`/read/${x._id}`}>
+                    <p>{x.descriptions}</p>
+                  </Link>
+                </td>
+                <td>
+                  <p className=" text-center">{x.likeCount}</p>
+                </td>
+                <td className=" text-center">
+                  <CountComment postd={x._id} />
+                </td>
+                <td>{x.category}</td>
+                <th className="flex gap-3">
+                  <button class="inline-block  bg-indigo-600 px-2 py-2 rounded-full text-xs font-medium text-white hover:bg-indigo-700">
+                    <Edit2 />
+                  </button>
+                  <button class="inline-block  bg-red-600 px-2 rounded-full py-2 text-xs font-medium text-white hover:bg-red-700">
+                    <Trash2Icon />
+                  </button>
+                </th>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

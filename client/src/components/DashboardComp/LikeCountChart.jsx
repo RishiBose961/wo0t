@@ -16,14 +16,14 @@ const LikeCountChart = () => {
   return (
     <div>
       {" "}
-      {/* <ResponsiveContainer width="" height={200}>
+      <ResponsiveContainer width="" height={200}>
         <BarChart width={300} height={100} data={likeCountPost}>
           <Bar  dataKey="likeCount" fill="#8884d8" />
           <XAxis dataKey="descriptions"/>
           <YAxis />
           <Tooltip/>
         </BarChart>
-      </ResponsiveContainer> */}
+      </ResponsiveContainer>
     </div>
   );
 };

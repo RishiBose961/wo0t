@@ -65,10 +65,7 @@ const LikePostHook = ({ postby }) => {
         },
       });
       // console.log("Data added successfully:", data);
-      // Cancel any outgoing refetches
-      queryClient.cancelQueries(["likeposts"]); 
-      
-      queryClient.invalidateQueries(["likeposts"]);
+      queryClient.invalidateQueries("likeposts");
       setIsPending(false);
     },
   });
@@ -114,7 +111,7 @@ const LikePostHook = ({ postby }) => {
           color: "#fff",
         },
       });
-      queryClient.cancelQueries(["likeposts"]); 
+      queryClient.cancelQueries(["likeposts"]);
       queryClient.invalidateQueries(["likeposts"]);
       setIsPending(false);
     },
@@ -127,31 +124,31 @@ const LikePostHook = ({ postby }) => {
   //CHECK IF USER HAS ALREADY LIKED THE POST
   const likeposts = likepost?.map((item) => item?.post)?.includes(postby);
 
+  const renderLikeButton = () => {
+    if (isLoading) {
+      return <span className="loading loading-ring loading-xs"></span>;
+    }
+
+    if (isPending) {
+      return <span className="loading loading-ring loading-xs"></span>;
+    }
+
+    if (likeposts) {
+      return (
+        <Heart
+          className="h-5 cursor-pointer fill-current text-red-500"
+          onClick={handleunLikeUser} // Assuming handleunLikeUser is defined
+        />
+      );
+    }
+
+    return <Heart className="h-5 cursor-pointer" onClick={handleLikeUser} />;
+  };
+
   return (
     <div>
       <Toaster />
-      <div className=" rounded-full p-1">
-        {isLoading ? (
-          <span className="loading loading-ring loading-xs"></span>
-        ) : (
-          <>
-            {likeposts ? (
-              isPending ? (
-                <span className="loading loading-ring loading-xs"></span>
-              ) : (
-                <Heart
-                  className="h-5 cursor-pointer fill-current  text-red-500"
-                  onClick={handleunLikeUser}
-                />
-              )
-            ) : isPending ? (
-              <span className="loading loading-ring loading-xs"></span>
-            ) : (
-              <Heart className="h-5 cursor-pointer" onClick={handleLikeUser} />
-            )}
-          </>
-        )}
-      </div>
+      <div className=" rounded-full p-1">{renderLikeButton()}</div>
     </div>
   );
 };
