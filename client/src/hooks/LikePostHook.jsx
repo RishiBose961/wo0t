@@ -124,31 +124,16 @@ const LikePostHook = ({ postby }) => {
   //CHECK IF USER HAS ALREADY LIKED THE POST
   const likeposts = likepost?.map((item) => item?.post)?.includes(postby);
 
-  const renderLikeButton = () => {
-    if (isLoading) {
-      return <span className="loading loading-ring loading-xs"></span>;
-    }
-
-    if (isPending) {
-      return <span className="loading loading-ring loading-xs"></span>;
-    }
-
-    if (likeposts) {
-      return (
-        <Heart
-          className="h-5 cursor-pointer fill-current text-red-500"
-          onClick={handleunLikeUser} // Assuming handleunLikeUser is defined
-        />
-      );
-    }
-
-    return <Heart className="h-5 cursor-pointer" onClick={handleLikeUser} />;
-  };
-
   return (
     <div>
       <Toaster />
-      <div className=" rounded-full p-1">{renderLikeButton()}</div>
+
+      <Heart
+        className={`h-5 cursor-pointer ${
+          likeposts ? "fill-current text-red-500" : ""
+        }`}
+        onClick={likeposts ? handleunLikeUser : handleLikeUser}
+      />
     </div>
   );
 };
