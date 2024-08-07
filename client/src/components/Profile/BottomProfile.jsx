@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import FollowUnFollowButton from "../FollowUnFollow/FollowUnFollowButton";
-import { EllipsisVerticalIcon } from "lucide-react";
+
 
 const BottomProfile = ({ userIn }) => {
   return (
@@ -32,10 +31,7 @@ const BottomProfile = ({ userIn }) => {
           </div>
         </div>
       </article>
-      <div className=" mx-1 flex justify-end items-center space-x-2">
-        <FollowUnFollowButton data={userIn} />
-        <EllipsisVerticalIcon />
-      </div>
+      
     </div>
   );
 };

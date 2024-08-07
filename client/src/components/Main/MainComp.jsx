@@ -27,6 +27,7 @@ const MainComp = () => {
     setIsLoading(false);
     setError("Image failed to load.");
   };
+
   
 
 
@@ -100,7 +101,7 @@ const MainComp = () => {
                             <div className="flex justify-start items-center space-x-2">
                               <MessageCircleMoreIcon />
 
-                              <CountComment postd={i._id}/>
+                              {/* <CountComment postd={i._id}/> */}
                             </div>
                           </Link>
                           <div className="flex justify-start items-center space-x-2">

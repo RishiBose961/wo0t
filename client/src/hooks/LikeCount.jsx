@@ -21,8 +21,6 @@ const LikeCount = ({likepost}) => {
     return <span>Error: {error.message}</span>;
   }
 
-  console.log(likecount?.count);
-
   return (
     <div>{likecount?.count}</div>
   )
