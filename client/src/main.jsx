@@ -23,6 +23,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Individualpost from "./page/Individualpost/Individualpost.jsx";
 import SearchProfile from "./page/SearchProfile/SearchProfile.jsx";
 import { SocketContextProvider } from "./context/ScoketContext.jsx";
+import PassKeyPage from "./page/Auth/PassKeyPage.jsx";
 
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<Home />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/passkey" element={<PassKeyPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/:profile" element={<SearchProfile />} />
       <Route path="/read/:id" element={<Individualpost />} />

@@ -14,7 +14,7 @@ const BottomProfile = ({ userIn }) => {
           />
 
           <div>
-            <h3 className="text-md font-medium text-white">{userIn?.name}</h3>
+            <h3 className="text-md font-medium ">{userIn?.name}</h3>
 
             <div className="flow-root">
               <ul className="-m-1 flex flex-wrap">

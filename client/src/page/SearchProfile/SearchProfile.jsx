@@ -42,10 +42,10 @@ const SearchProfile = () => {
           </div>
 
           <div className="mt-10 md:mt-0">
-              <p className="text-xl text-white">
+              <p className="text-xl ">
                 {profileData?.name}
               </p>
-            <p className="mt-2 text-lg font-semibold text-white">{profileData?.username}</p>
+            <p className="mt-2 text-lg font-semibold ">{profileData?.username}</p>
             <div className="pt-10">
             <FollowUnFollowButton data={profileData}/>
             </div>

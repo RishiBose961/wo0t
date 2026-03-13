@@ -59,7 +59,7 @@ const MainComp = () => {
                       onError={handleError}
                     />
 
-                    <div className="p-4 sm:p-6 bg-[#1D232A] rounded-b-lg">
+                    <div className="p-4 sm:p-6  rounded-b-lg">
                       <div className="badge badge-accent badge-outline mb-2">
                         {i.category}
                       </div>
@@ -68,7 +68,7 @@ const MainComp = () => {
                         to={`/read/${i._id}`}
                         onClick={() => setSelectedPostId(i?._id)}
                       >
-                        <h3 className="mt-0.5 text-lg line-clamp-1 lg:w-96 text-white">
+                        <h3 className="mt-0.5 text-lg line-clamp-1 lg:w-96 ">
                           {i.descriptions}
                         </h3>
                       </Link>

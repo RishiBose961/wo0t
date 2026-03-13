@@ -2,25 +2,52 @@ import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import User from "../models/user.model.js";
 
+// Protect Middleware to authenticate the user
 const protect = asyncHandler(async (req, res, next) => {
   let token;
-
   token = req.cookies.jwt;
 
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      req.user = await User.findById(decoded.userId).select("-password");
+      // Fetch the user from the database, excluding the password
+      req.user = await User.findById(decoded.id || decoded.userId).select(
+        "-password"
+      );
+
+      // Store user roles in request object
+      req.userRoles = decoded.roles;
+
       next();
     } catch (error) {
+      console.error(error);
       res.status(401);
-      throw new Error("Not authorized,Invalid token");
+      throw new Error("Not authorized, Invalid token");
     }
   } else {
     res.status(401);
-    throw new Error("Not authorized,no token");
+    throw new Error("Not authorized, no token found");
   }
 });
 
-export { protect };
+// Role Middleware to authorize users based on their role
+const hasRole = (requiredRole) => (req, res, next) => {
+  if (!req.userRoles) {
+    return res.status(403).json({ error: "Access denied, no roles assigned" });
+  }
+
+  // Check if the user has the required role
+  const userRole = Array.isArray(req.userRoles)
+    ? req.userRoles
+    : [req.userRoles];
+  if (!userRole.includes(requiredRole)) {
+    return res
+      .status(403)
+      .json({ error: "Access denied, insufficient privileges" });
+  }
+
+  next();
+};
+
+export { protect, hasRole };

@@ -21,7 +21,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (userInfo) {
-      const socket = io('https://wo0t.onrender.com',{
+      const socket = io('http://localhost:5000',{
         query: {
           userId: userInfo._id,
         },

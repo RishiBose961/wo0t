@@ -1,11 +1,10 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 import { useParams } from "react-router-dom";
 import Comments from "../../components/Comment/Comments";
 import LiveChat from "../../components/LiveChat/LiveChat";
-import InfoPost from "./InfoPost";
 import ShowReleted from "../../components/ShowReleted/ShowReleted";
+import InfoPost from "./InfoPost";
 
 const Individualpost = () => {
   const { id } = useParams("");

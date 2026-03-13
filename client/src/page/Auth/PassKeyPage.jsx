@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { setCredentials } from "../../slices/authSlices";
 import { useLoginMutation } from "../../slices/userApiSlice";
 
-const LoginPage = () => {
+const PassKeyPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -112,6 +112,7 @@ const LoginPage = () => {
                   )}{" "}
                 
                 </button>
+                <Link to='/passkey'>PassKey Login</Link>
               </div>
             </div>
           </form>
@@ -121,4 +122,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default PassKeyPage;

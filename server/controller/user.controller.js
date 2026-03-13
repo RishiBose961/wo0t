@@ -4,9 +4,13 @@ import User from "../models/user.model.js";
 import crypto from "crypto";
 import mongoose from "mongoose";
 
-export const registerUser = expressAsyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
 
+export const registerUser = expressAsyncHandler(async (req, res) => {
+  const { name, email, password, role } = req.body;
+
+
+  
+  
   const userExists = await User.findOne({ email });
 
   if (userExists) {
@@ -30,19 +34,15 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
     avatar: `https://api.dicebear.com/8.x/notionists/svg?seed=${name}`,
     email,
     password,
+    roles: role || 'user',
   });
 
+ 
+
   if (user) {
-    generateToken(res, user._id);
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      username: user.username,
-      avatar: user.avatar,
-      geminiApiKey: user.geminiApiKey,
-      message: "User created successfully",
-    });
+    generateToken(res, user._id,user.roles);
+
+    res.status(201).json({ message: 'User registered successfully done' });
   } else {
     res.status(400);
     throw new Error("Invalid user data");
@@ -54,14 +54,14 @@ export const loginUser = expressAsyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id);
+    generateToken(res, user._id,user.roles);
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
       username: user.username,
       avatar: user.avatar,
-      geminiApiKey: user.geminiApiKey
+      geminiApiKey: user.geminiApiKey,
     });
   } else {
     res.status(400);

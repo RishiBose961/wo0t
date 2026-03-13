@@ -24,10 +24,16 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
-    geminiApiKey:{
+    roles: {
       type: String,
-      default:""
-    }
+      enum: ['admin', 'user'], // Define possible roles directly in the User schema
+      default: 'user',
+      required: true,
+    },
+    geminiApiKey: {
+      type: String,
+      default: "",
+    },
   },
 
   {

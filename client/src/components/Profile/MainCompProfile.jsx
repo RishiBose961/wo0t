@@ -18,12 +18,12 @@ const MainCompProfile = ({ userIn }) => {
         </div>
       </div>
 
-      <div className=" p-4 sm:p-6">
+      <div className=" p-4 sm:p-6 ">
         <Link to={`/${userIn?.username}`}>
-          <h3 className="mt-0.5 text-lg text-center text-white">
+          <h3 className="mt-0.5 text-lg text-center">
             {userIn?.name ?? "Unknown"}
           </h3>
-          <h3 className="mt-0.5 text-md text-center text-white">
+          <h3 className="mt-0.5 text-md text-center ">
             {userIn?.username ?? "Unknown"}
           </h3>
         </Link>
