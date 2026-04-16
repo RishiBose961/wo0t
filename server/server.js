@@ -15,6 +15,7 @@ import conversationRoutes from "./routes/conversation.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import liveRoutes from "./routes/livechat.routes.js";
 import dashRoutes from "./routes/dashboard.routes.js"
+import cors from "cors";
 
 import { app, server } from "./socket/socket.js";
 
@@ -24,6 +25,8 @@ import connectDB from "./config/db.config.js";
 const port = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
+
+app.use(cors());
 
 dotenv.config();
 

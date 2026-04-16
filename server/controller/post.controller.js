@@ -14,6 +14,9 @@ export const createPost = expressAsyncHandler(async (req, res) => {
       scheduledate,
     } = req.body;
 
+
+    
+
     let { sourceurl } = req.body;
 
     if (!descriptions || !category || !visibility) {
@@ -110,5 +113,89 @@ export const getPostsByUser = expressAsyncHandler(async (req, res) => {
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+
+
+export const updatePost = expressAsyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await Post.findById(id);
+
+    // ❌ Post not found
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // ❌ Unauthorized user
+    if (post.postedBy.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const {
+      descriptions,
+      category,
+      visibility,
+
+    } = req.body;
+
+   
+    post.descriptions = descriptions || post.descriptions;
+    post.category = category || post.category;
+    post.visibility = visibility || post.visibility;
+   
+
+    const updatedPost = await post.save();
+
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal server error",
+      message: error.message,
+    });
+  }
+});
+
+export const deletePost = expressAsyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await Post.findById(id);
+
+    // ❌ Post not found
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // ❌ Unauthorized user
+    if (post.postedBy.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    if (post.sourceurl) {
+      try {
+        const publicId = post.sourceurl
+          .split("/")
+          .pop()
+          .split(".")[0];
+
+        await cloudinary.uploader.destroy(publicId);
+      } catch (err) {
+        console.log("Cloudinary delete failed:", err.message);
+      }
+    }
+    
+    await post.deleteOne();
+
+    res.status(200).json({
+      message: "Post deleted successfully ✅",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal server error",
+      message: error.message,
+    });
   }
 });
