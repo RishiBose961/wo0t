@@ -24,6 +24,7 @@ import Individualpost from "./page/Individualpost/Individualpost.jsx";
 import SearchProfile from "./page/SearchProfile/SearchProfile.jsx";
 import { SocketContextProvider } from "./context/ScoketContext.jsx";
 import PassKeyPage from "./page/Auth/PassKeyPage.jsx";
+import EditPage from "./page/Post/EditPage.jsx";
 
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const router = createBrowserRouter(
         <Route path="/new" element={<CreatePage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/edit/:id" element={<EditPage />} />
       </Route>
     </Route>
   )

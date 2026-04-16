@@ -1,10 +1,9 @@
-import React from "react";
 import LikeCountChart from "../../components/DashboardComp/LikeCountChart";
 import TableShow from "../../components/DashboardComp/TableShow";
 
 const DashBoard = () => {
   return (
-    <div className="mx-auto max-w-screen-xl">
+    <div className="container flex justify-center mx-auto px-4 sm:px-6 lg:px-8">
       <div
         className="flex  sm:h-[450px]  mt-3 rounded-lg overflow-hidden "
         style={{ height: `90vh` }}

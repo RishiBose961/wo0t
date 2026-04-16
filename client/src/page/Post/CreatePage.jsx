@@ -1,12 +1,13 @@
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { Bot, BotOff, Upload, X } from "lucide-react";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import GeminiPost from "../../components/GeminiComp/GeminiPost";
 import GeminiPostCreate from "../../hooks/GeminiPostCreate";
 import DateTime from "./DateTime";
+
 
 const people = [
   "News",
@@ -61,8 +62,7 @@ const CreatePage = () => {
       scheduledate,
     }) => {
       try {
-        const res = await axios.post(
-          "/api/post/newpost",
+        const res = await axios.post("/api/post/newpost",
           {
             descriptions,
             sourceurl,
@@ -81,8 +81,8 @@ const CreatePage = () => {
             },
           }
         );
-
         return res.data;
+
       } catch (error) {
         throw new Error(error);
       }
@@ -133,6 +133,7 @@ const CreatePage = () => {
       reader.readAsDataURL(file);
     }
   };
+
 
   const handleCheckboxChange = () => {
     setLiveChat((prevLiveChat) => !prevLiveChat); // Toggle the boolean value

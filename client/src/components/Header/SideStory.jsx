@@ -57,9 +57,7 @@ const SideStory = () => {
               </form>
             )}
           </div>
-          <span className="grid h-10 w-64 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
-            Your Interested Tags
-          </span>
+       
           <div></div>
         </div>
       ) : (

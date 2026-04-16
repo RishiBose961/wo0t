@@ -2,14 +2,12 @@ import { Button } from "@headlessui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   HeartHandshake,
-  MessageCircleHeartIcon,
-  MessageSquareHeartIcon,
-  UserCheck,
+  MessageSquareHeartIcon
 } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
 
 const FollowUnFollowButton = ({ data: datas }) => {
   const { userInfo } = useSelector((state) => state.auth);

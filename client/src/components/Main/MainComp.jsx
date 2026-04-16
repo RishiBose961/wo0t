@@ -1,15 +1,15 @@
-import { Heart, LineChart, MessageCircleMoreIcon, Share2 } from "lucide-react";
-import React, { Fragment, useState } from "react";
+import { Heart, MessageCircleMoreIcon, Share2 } from "lucide-react";
+import { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { format } from "timeago.js";
 import GetAllPostHook from "../../hooks/GetAllPostHook";
 import LikePostHook from "../../hooks/LikePostHook";
-import MainCompProfile from "../Profile/MainCompProfile";
-import DateTimeLeft from "./DateTimeLeft";
 import useConversation from "../../zustand/useConversation";
 import BottomProfile from "../Profile/BottomProfile";
-import CountComment from "./CountComment";
+import MainCompProfile from "../Profile/MainCompProfile";
+import DateTimeLeft from "./DateTimeLeft";
+import CopyUrlButton from "./CopyUrlButton";
 
 const MainComp = () => {
   const { postData, isPending } = GetAllPostHook();
@@ -104,12 +104,9 @@ const MainComp = () => {
                               {/* <CountComment postd={i._id}/> */}
                             </div>
                           </Link>
-                          <div className="flex justify-start items-center space-x-2">
-                            <LineChart className="h-5 cursor-pointer" />
-                            <span>5</span>
-                          </div>
+                         
 
-                          <Share2 className="h-5" />
+                          <CopyUrlButton id={i._id} />
                         </div>
                       </div>
                     </div>

@@ -8,6 +8,7 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 import FollowUnFollowButton from "../FollowUnFollow/FollowUnFollowButton";
+import CopyUrlButton from "../Main/CopyUrlButton";
 
 const MainCompProfile = ({ userIn }) => {
   return (
@@ -32,14 +33,8 @@ const MainCompProfile = ({ userIn }) => {
           <FollowUnFollowButton data={userIn}/>
         
         </div>
-        {/* Navigation Icon */}
-        <div className="flex justify-center items-center space-x-10 mt-6">
-          <Link to={`/${userIn?.username}`}>
-            <CircleUser className="hover:text-amber-400 cursor-pointer" />
-          </Link>
-          <Share2 className="hover:text-sky-400 cursor-pointer" />
-          <QrCode className="hover:text-violet-400 cursor-pointer" />
-        </div>
+        
+ 
       </div>
     </article>
   );

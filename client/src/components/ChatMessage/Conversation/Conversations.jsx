@@ -19,7 +19,7 @@ const Conversations = () => {
 
   return (
     <>
-    <ChatGroupSearch/>
+    {/* <ChatGroupSearch/> */}
      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
       {conversationData?.map((i, index) => (
         <Conversation key={index} data={i} />

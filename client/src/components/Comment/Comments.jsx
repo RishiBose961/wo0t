@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MessageSquareMore, Send } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import CommentView from "./CommentView";
-import SugestionComment from "./SugestionComment";
 import { Link } from "react-router-dom";
 import CountComment from "../Main/CountComment";
+import CommentView from "./CommentView";
+import SugestionComment from "./SugestionComment";
 
 const Comments = ({ postId, postitle }) => {
   const { userInfo } = useSelector((state) => state.auth);
